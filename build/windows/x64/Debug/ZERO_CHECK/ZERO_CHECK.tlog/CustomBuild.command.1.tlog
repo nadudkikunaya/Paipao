@@ -1,0 +1,10 @@
+^E:\PAIPAO\PAIPAO\BUILD\WINDOWS\CMAKEFILES\2A51DBF7EE317297F118699EDBF865C1\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SE:/paipao/paipao/windows -BE:/paipao/paipao/build/windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file E:/paipao/paipao/build/windows/paipao.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
