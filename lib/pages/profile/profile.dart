@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paipao/pages/auth/login.dart';
 
 class Profile extends StatefulWidget {
   final String userId;
@@ -22,6 +23,15 @@ class _ProfileState extends State<Profile> {
             Text(
               widget.userId,
             ),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                child: Container(
+                  color: Colors.amber,
+                  child: Text('ออกจากระบบ'),
+                ))
           ],
         ),
       ),
