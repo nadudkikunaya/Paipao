@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './pages/developer_menu.dart';
+import 'package:paipao/pages/auth/login.dart';
+import 'pages/developerMenu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DeveloperMenu(),
+      home: Login(),
     );
   }
 }

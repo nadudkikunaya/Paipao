@@ -19,7 +19,7 @@
 17    <application
 18        android:name="android.app.Application"
 19        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-19-->[androidx.core:core:1.6.0] C:\Users\INatZ\.gradle\caches\transforms-3\acbce933e4b464a5224ed377a62db1f5\transformed\core-1.6.0\AndroidManifest.xml:24:18-86
+19-->[androidx.core:core:1.8.0] C:\Users\INatZ\.gradle\caches\transforms-3\d363e3b5616f580c766e3e2b3c05f27d\transformed\core-1.8.0\AndroidManifest.xml:24:18-86
 20        android:debuggable="true"
 21        android:icon="@mipmap/ic_launcher"
 22        android:label="paipao" >
@@ -56,18 +56,36 @@
 53            android:name="flutterEmbedding"
 54            android:value="2" />
 55
-56        <uses-library
-56-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
-57            android:name="androidx.window.extensions"
-57-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
-58            android:required="false" />
-58-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
-59        <uses-library
-59-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
-60            android:name="androidx.window.sidecar"
-60-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
-61            android:required="false" />
-61-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
-62    </application>
-63
-64</manifest>
+56        <provider
+56-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+57            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+57-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+58            android:authorities="com.example.paipao.flutter.image_provider"
+58-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+59            android:exported="false"
+59-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+60            android:grantUriPermissions="true" >
+60-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+61            <meta-data
+61-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+62                android:name="android.support.FILE_PROVIDER_PATHS"
+62-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+63                android:resource="@xml/flutter_image_picker_file_paths" />
+63-->[:image_picker_android] E:\paipao\paipao\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+64        </provider>
+65
+66        <uses-library
+66-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40
+67            android:name="androidx.window.extensions"
+67-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:26:13-54
+68            android:required="false" />
+68-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:27:13-37
+69        <uses-library
+69-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:28:9-30:40
+70            android:name="androidx.window.sidecar"
+70-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:29:13-51
+71            android:required="false" />
+71-->[androidx.window:window:1.0.0-beta04] C:\Users\INatZ\.gradle\caches\transforms-3\49bc944d29f70d45aa5add8e43e3247e\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:30:13-37
+72    </application>
+73
+74</manifest>

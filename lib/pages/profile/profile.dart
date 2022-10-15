@@ -25,7 +25,7 @@ class _ProfileState extends State<Profile> {
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.push(context,
+                  Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context) => Login()));
                 },
                 child: Container(

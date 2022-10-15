@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/widget/announcementDetails.dart';
-import 'package:paipao/pages/widget/memberTab.dart';
 import '../profile/profile.dart';
 
 class AnnouncementCard extends StatefulWidget {
@@ -280,24 +279,33 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                                     //         heightFactor: 0.9,
                                     //         child: Container(
                                     //           decoration: BoxDecoration(
-                                    //               borderRadius: BorderRadius.only(
-                                    //                   topLeft: Radius.circular(5),
-                                    //                   topRight: Radius.circular(5))),
+                                    //               borderRadius:
+                                    //                   BorderRadius.only(
+                                    //                       topLeft:
+                                    //                           Radius.circular(
+                                    //                               5),
+                                    //                       topRight:
+                                    //                           Radius.circular(
+                                    //                               5))),
                                     //           child: Padding(
-                                    //             padding: EdgeInsets.only(top: 10),
+                                    //             padding:
+                                    //                 EdgeInsets.only(top: 10),
                                     //             child: Column(children: [
                                     //               Center(
                                     //                 child: Container(
-                                    //                     width: MediaQuery.of(context)
-                                    //                             .size
-                                    //                             .width /
-                                    //                         3,
+                                    //                     width:
+                                    //                         MediaQuery.of(
+                                    //                                     context)
+                                    //                                 .size
+                                    //                                 .width /
+                                    //                             3,
                                     //                     decoration: BoxDecoration(
-                                    //                         color:
-                                    //                             Colors.grey.shade400,
+                                    //                         color: Colors
+                                    //                             .grey.shade400,
                                     //                         borderRadius:
-                                    //                             BorderRadius.circular(
-                                    //                                 10)),
+                                    //                             BorderRadius
+                                    //                                 .circular(
+                                    //                                     10)),
                                     //                     child: Text('')),
                                     //               ),
                                     //               Image.network(
