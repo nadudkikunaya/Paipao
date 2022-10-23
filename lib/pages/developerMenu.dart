@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/login.dart';
 import 'mainWrapper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DeveloperMenu extends StatefulWidget {
   const DeveloperMenu({super.key});
@@ -56,10 +57,25 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   child: Text('MainMenu'),
                 ))
               ],
+            ),
+            StreamBuilder(
+              stream:
+                  FirebaseFirestore.instance.collection('users').snapshots(),
+              builder: (context, snapshot) {
+                return Expanded(
+                    // height: MediaQuery.of(context).size.height * 0.5,
+                    child: ListView(children: makeListWidget(snapshot.data)));
+              },
             )
           ],
         ),
       )),
     );
+  }
+
+  List<Widget> makeListWidget(QuerySnapshot<Map<String, dynamic>>? data) {
+    return data!.docs.map((doc) {
+      return ListTile(title: Text(doc['name'].toString()));
+    }).toList();
   }
 }
