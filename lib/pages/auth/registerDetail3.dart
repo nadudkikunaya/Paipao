@@ -1,11 +1,33 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/registerWaitApprove.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+// https://stackoverflow.com/questions/51415236/show-circular-progress-dialog-in-login-screen-in-flutter-how-to-implement-progr
+showLoaderDialog(BuildContext context){
+  AlertDialog alert=AlertDialog(
+    content: Row(
+      children: [
+        CircularProgressIndicator(),
+        Container(margin: EdgeInsets.only(left: 7),child:Text('เรากำลังทำการสมัครสมาชิกให้คุณ')),
+      ],
+    ),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context:context,
+    builder:(BuildContext context){
+      return WillPopScope(onWillPop: () async => false, child: alert);
+    },
+  );
+}
 
 class RegisterDetail3 extends StatefulWidget {
-  const RegisterDetail3({super.key});
+  final Map<String, dynamic> regData;
+  const RegisterDetail3({super.key, required this.regData});
 
   @override
   State<RegisterDetail3> createState() => _RegisterDetail3State();
@@ -190,12 +212,57 @@ class _RegisterDetail3State extends State<RegisterDetail3> {
                       width: MediaQuery.of(context).size.width * 0.3,
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        RegisterWaitApprove()));
+                          onPressed: () async {
+                            showLoaderDialog(context);
+                            try {
+                              // Create the user in Firebase
+                              final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                                email: widget.regData['regEmail'],
+                                password: widget.regData['regPassword'],
+                              );
+
+                              // TODO: Upload the additional user data to Cloud Firesotre
+                              final db = FirebaseFirestore.instance;
+                              db
+                                .collection('users')
+                                .doc(credential.user!.uid)
+                                .set({
+                                  "name": widget.regData['regName'],
+                                  "likes": "to test",
+                                })
+                                .onError((e, _) => print('Error writing document: $e'));
+
+                              // Completed the server-side process
+                              if (!mounted) return; // Need to add this after every await calls that will be followed with any BuildContext (https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps)
+                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          RegisterWaitApprove()));
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'weak-password') {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('ความซับซ้อนของรหัสผ่านน้อยเกิน')),
+                                );
+                              } else if (e.code == 'email-already-in-use') {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('อีเมลล์ที่ให้มานั้นได้ถูกใช้ไปแล้ว')),
+                                );
+                              } else {  // Any other FirebaseAuthExceptions
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(e.toString())),
+                                );
+                              }
+                            } catch (e) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e.toString())),
+                              );
+                            }
                           },
                           child: Text('อ่ะ ต่อไป')),
                     ),

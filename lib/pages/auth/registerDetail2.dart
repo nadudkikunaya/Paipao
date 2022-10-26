@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/registerDetail3.dart';
-import 'package:paipao/pages/auth/registerWaitApprove.dart';
 import 'package:paipao/pages/widget/tag.dart';
 
 class RegisterDetail2 extends StatefulWidget {
-  const RegisterDetail2({super.key});
+  final Map<String, dynamic> regData;
+  const RegisterDetail2({super.key, required this.regData});
 
   @override
   State<RegisterDetail2> createState() => _RegisterDetail2State();
@@ -69,7 +69,7 @@ class _RegisterDetail2State extends State<RegisterDetail2> {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RegisterDetail3()));
+                                    builder: (context) => RegisterDetail3(regData: widget.regData,)));
                           },
                           child: Text('อ่ะ ต่อไป')),
                     ),

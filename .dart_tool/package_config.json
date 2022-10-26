@@ -74,6 +74,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "firebase_auth",
+      "rootUri": "file:///C:/SDKs/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
+      "name": "firebase_auth_platform_interface",
+      "rootUri": "file:///C:/SDKs/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_platform_interface-6.10.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
+      "name": "firebase_auth_web",
+      "rootUri": "file:///C:/SDKs/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-5.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "firebase_core",
       "rootUri": "file:///C:/SDKs/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-2.1.0",
       "packageUri": "lib/",
@@ -160,6 +178,12 @@
     {
       "name": "image_picker_platform_interface",
       "rootUri": "file:///C:/SDKs/flutter/.pub-cache/hosted/pub.dartlang.org/image_picker_platform_interface-2.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "intl",
+      "rootUri": "file:///C:/SDKs/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -266,7 +290,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-10-23T14:19:38.629079Z",
+  "generated": "2022-10-24T06:01:13.957449Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }
