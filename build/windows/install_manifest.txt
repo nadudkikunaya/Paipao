@@ -4,6 +4,7 @@ E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/AssetManifest.js
 E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
 E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
 E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
+E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/NOTICES
 E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/NOTICES.Z
 E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/packages/cupertino_icons/assets/CupertinoIcons.ttf
 E:/paipao/paipao/build/windows/runner/Debug/data/flutter_assets/shaders/ink_sparkle.frag
