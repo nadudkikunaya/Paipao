@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../profile/profile.dart';
+import '../profile/profile_old.dart';
 
 class MemberTab extends StatefulWidget {
   const MemberTab({

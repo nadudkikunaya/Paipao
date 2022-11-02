@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/widget/announcementDetails.dart';
-import '../profile/profile.dart';
+import '../profile/profile_old.dart';
 
 class AnnouncementCard extends StatefulWidget {
   final String title;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import './feed/feed.dart';
 import './explore/explore.dart';
 import './chat/chat.dart';
-import './profile/profile.dart';
+import 'profile/profile.dart';
 
 class MainWrapper extends StatefulWidget {
   const MainWrapper({super.key});
@@ -17,9 +17,7 @@ class _MainWrapperState extends State<MainWrapper> {
     Feed(),
     Explore(),
     Chat(),
-    Profile(
-      userId: 'ทดสอบ',
-    ),
+    Profile(),
   ];
 
   @override
