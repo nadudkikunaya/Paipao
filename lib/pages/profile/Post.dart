@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:like_button/like_button.dart';
 
 class Post {
   String text = "";
@@ -10,9 +11,7 @@ class Post {
 Widget CreatePost(String photo, String text) {
   return Container(
     child: Column(children: [
-     
       Container(
-        
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(26),
@@ -24,24 +23,24 @@ Widget CreatePost(String photo, String text) {
           ),
         ),
       ),
-      
       Row(
         children: [
-          
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 2),
-            
-            child: Icon(Icons.favorite_border_outlined)),
-            Text("10,000 Likes")
+          // Container(
+          //     alignment: Alignment.centerLeft,
+          //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+          //     child: Icon(Icons.favorite_border_outlined)),
+          LikeButton(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+            size: 20,
+          ),
+          Text("10,000 Likes")
         ],
       ),
-        
       Container(
         alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 13,vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 2),
         child: Text(
-          text ,
+          text,
           style: TextStyle(fontSize: 14),
         ),
       ),
