@@ -6,9 +6,13 @@ import 'memberTab.dart';
 
 class AnnouncementDetail extends StatefulWidget {
   const AnnouncementDetail(
-      {super.key, required this.announceData, required this.isViewingDetail});
+      {super.key,
+      required this.announceData,
+      required this.isViewingDetail,
+      required this.refreshParent});
   final Map<String, dynamic> announceData;
   final bool isViewingDetail;
+  final Function refreshParent;
 
   @override
   State<AnnouncementDetail> createState() => _AnnouncementDetailState();
@@ -17,8 +21,9 @@ class AnnouncementDetail extends StatefulWidget {
 class _AnnouncementDetailState extends State<AnnouncementDetail> {
   @override
   List<Map<String, dynamic>> participants = [];
-  //final String temp_user_id = 'KbtEqJMBd1vOEu3cppZ6';
-  final String temp_user_id = 'w7oYKajZtmNwOOrujJYm';
+  final String temp_user_id = 'KbtEqJMBd1vOEu3cppZ6'; //A
+  //final String temp_user_id = 'w7oYKajZtmNwOOrujJYm'; //B
+  //final String temp_user_id = 'lze0oAskkL1Z7r24a0R7'; //C
   getData() async {
     List<Map<String, dynamic>> listData = [];
     await FirebaseFirestore.instance
@@ -35,7 +40,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
           Map<String, dynamic>? participantData = doc.data();
           participantData!['isAllowed'] = data['isAllowed'];
           participantData['user_id'] = doc.id;
-          print(participantData);
+          //print(participantData);
           listData.add(participantData);
           // setState(() {
           //   participants = listData;
@@ -46,6 +51,65 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
     });
     setState(() {
       participants = listData;
+    });
+  }
+
+  void joinActivity() {
+    //print('activity_id :' + widget.announceData['activity_id']);
+    print(widget.announceData);
+    String activity_id = widget.announceData['activity_id'];
+    DocumentReference<Map<String, dynamic>> announce_ref =
+        FirebaseFirestore.instance.doc('announcement/' + activity_id);
+
+    print('add announcement ref in user');
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(temp_user_id)
+        .collection('announcement')
+        .doc(activity_id)
+        .set({
+      'announce_ref': announce_ref,
+      'status': 'participant',
+    });
+
+    bool isAllowed = true;
+    bool isUpdateNumJoin = false;
+    if (widget.announceData['isTypeSelect'] == false &&
+        widget.announceData['capacity'] > widget.announceData['numJoin']) {
+      print('update numJoin');
+      FirebaseFirestore.instance
+          .collection('announcement')
+          .doc(activity_id)
+          .update({
+        'numJoin': FieldValue.increment(1),
+      });
+      isUpdateNumJoin = true;
+    } else if (widget.announceData['isTypeSelect'] == true &&
+        widget.announceData['capacity'] > widget.announceData['numJoin']) {
+      isUpdateNumJoin = false;
+      isAllowed = false;
+    }
+
+    print('add user to participants in activity');
+    DocumentReference<Map<String, dynamic>> user_ref =
+        FirebaseFirestore.instance.doc('users/' + temp_user_id);
+    FirebaseFirestore.instance
+        .collection('announcement')
+        .doc(activity_id)
+        .collection('participants')
+        .doc(temp_user_id)
+        .set({'isAllowed': isAllowed, 'user_ref': user_ref});
+    refresh(isUpdateNumJoin);
+  }
+
+  void refresh(isUpdateNumJoin) {
+    setState(() {
+      getData();
+      if (isUpdateNumJoin) {
+        widget.announceData['numJoin'] += 1;
+      }
+      // no need *not important*
+      widget.refreshParent();
     });
   }
 
@@ -202,21 +266,44 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
                                                     widget.announceData[
                                                         'activity_id'],
                                                 user_id: temp_user_id,
+                                                refreshParent: refresh,
                                               );
                                             }),
-                                    // MemberTab(
-                                    //     picURL:
-                                    //         'https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?w=2000',
-                                    //     userId: 'ทดสอบ พลานุพัฒน์'),
-                                    // MemberTab(
-                                    //     picURL:
-                                    //         'https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?w=2000',
-                                    //     userId: 'ทดสอบ พลานุพัฒน์'),
-                                    // MemberTab(
-                                    //     picURL:
-                                    //         'https://img.freepik.com/free-photo/pleasant-looking-serious-man-stands-profile-has-confident-expression-wears-casual-white-t-shirt_273609-16959.jpg?w=2000',
-                                    //     userId: 'ทดสอบ พลานุพัฒน์')
-                                  ]))))
+                                  ])))),
+                  participants.isEmpty
+                      ? Text('loading')
+                      : participants.any(
+                              (element) => element['user_id'] == temp_user_id)
+                          ? Text('')
+                          : Container(
+                              width: MediaQuery.of(context).size.width - 20,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextButton(
+                                      onPressed: joinActivity,
+                                      style: ButtonStyle(
+                                        overlayColor:
+                                            MaterialStatePropertyAll<Color>(
+                                                Colors.green),
+                                        backgroundColor:
+                                            MaterialStatePropertyAll<Color>(
+                                                Colors.blueAccent),
+                                        foregroundColor:
+                                            MaterialStatePropertyAll<Color>(
+                                                Colors.white),
+                                      ),
+                                      child: Text(
+                                        'เข้าร่วมกลุ่ม',
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                 ],
               ),
             ),

@@ -25,6 +25,13 @@ class AnnouncementCard extends StatefulWidget {
 }
 
 class _AnnouncementCardState extends State<AnnouncementCard> {
+  int offset_numJoin = 0;
+  void refresh() {
+    setState(() {
+      offset_numJoin += 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -67,7 +74,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                                         color: Colors.blue, size: 15),
                                   ),
                                   Text(
-                                    '${widget.announceData['numJoin']}/${widget.announceData['capacity']}',
+                                    '${widget.announceData['numJoin'] + offset_numJoin}/${widget.announceData['capacity']}',
                                     style: TextStyle(fontSize: 14),
                                   )
                                 ],
@@ -319,7 +326,8 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                                         builder: (BuildContext context) {
                                           return AnnouncementDetail(
                                               announceData: widget.announceData,
-                                              isViewingDetail: true);
+                                              isViewingDetail: true,
+                                              refreshParent: refresh);
                                         });
                                   }),
                                   style: ButtonStyle(

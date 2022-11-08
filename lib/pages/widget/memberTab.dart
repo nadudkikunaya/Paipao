@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../profile/profile.dart';
@@ -8,17 +9,41 @@ class MemberTab extends StatefulWidget {
       required this.userData,
       required this.creator,
       required this.activity_id,
-      required this.user_id});
+      required this.user_id,
+      required this.refreshParent});
   final Map<String, dynamic> userData;
   final String creator;
   final String activity_id;
   final String user_id;
-
+  final Function refreshParent;
   @override
   State<MemberTab> createState() => _MemberTabState();
 }
 
 class _MemberTabState extends State<MemberTab> {
+  void acceptParticipant() async {
+    print('update allow user to true');
+    await FirebaseFirestore.instance
+        .collection('announcement')
+        .doc(widget.activity_id)
+        .collection('participants')
+        .doc(widget.userData['user_id'])
+        .update({
+      'isAllowed': true,
+    });
+    print('update numJoin');
+    await FirebaseFirestore.instance
+        .collection('announcement')
+        .doc(widget.activity_id)
+        .update({
+      'numJoin': FieldValue.increment(1),
+    }).then((value) {
+      setState(() {
+        widget.refreshParent(true);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -84,7 +109,7 @@ class _MemberTabState extends State<MemberTab> {
                         margin: EdgeInsets.only(top: 25),
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: acceptParticipant,
                           style: ButtonStyle(
                             overlayColor:
                                 MaterialStatePropertyAll<Color>(Colors.green),
