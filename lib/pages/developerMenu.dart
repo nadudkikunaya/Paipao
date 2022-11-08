@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/login.dart';
+import 'package:paipao/pages/factory.dart';
 import 'mainWrapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -49,13 +50,25 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
+                      MaterialPageRoute(builder: (context) => const Factory()),
+                    );
+                  },
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  child: Text('Factory'),
+                )),
+                Expanded(
+                    child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
                       MaterialPageRoute(
                           builder: (context) => const MainWrapper()),
                     );
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
                   child: Text('MainMenu'),
-                ))
+                )),
               ],
             ),
             // StreamBuilder(

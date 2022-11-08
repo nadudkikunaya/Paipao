@@ -1,16 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:paipao/pages/widget/announcementDetails.dart';
 import '../profile/profile.dart';
 
 class AnnouncementCard extends StatefulWidget {
-  final String title;
-  final String numPerson;
-  final String maxPerson;
-  final bool isTypeSelect;
-  final String location;
-  final String dateFormatted;
-  final Map<String, dynamic> conditions;
-  final String creator;
+  final Map<String, dynamic> announceData;
   final bool isViewingDetail;
 
   /*
@@ -23,16 +18,7 @@ class AnnouncementCard extends StatefulWidget {
   */
 
   const AnnouncementCard(
-      {super.key,
-      required this.title,
-      required this.numPerson,
-      required this.maxPerson,
-      required this.isTypeSelect,
-      required this.location,
-      required this.dateFormatted,
-      required this.conditions,
-      required this.creator,
-      required this.isViewingDetail});
+      {super.key, required this.announceData, required this.isViewingDetail});
 
   @override
   State<AnnouncementCard> createState() => _AnnouncementCardState();
@@ -63,7 +49,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                           direction: Axis.horizontal,
                           children: [
                             Text(
-                              widget.title,
+                              widget.announceData['title'],
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                               softWrap: true,
@@ -81,7 +67,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                                         color: Colors.blue, size: 15),
                                   ),
                                   Text(
-                                    '${widget.numPerson}/${widget.maxPerson}',
+                                    '${widget.announceData['numJoin']}/${widget.announceData['capacity']}',
                                     style: TextStyle(fontSize: 14),
                                   )
                                 ],
@@ -97,13 +83,13 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                                color: widget.isTypeSelect
+                                color: widget.announceData['isTypeSelect']
                                     ? Colors.yellow
                                     : Colors.lightGreenAccent,
                                 borderRadius: BorderRadius.circular(5)),
                             padding: EdgeInsets.all(3),
                             child: Text(
-                              widget.isTypeSelect
+                              widget.announceData['isTypeSelect']
                                   ? 'คัดเลือกผู้เข้าร่วม'
                                   : 'เข้าร่วมได้เลย',
                             ),
@@ -117,7 +103,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                                 color: Colors.blue,
                               ),
                               Text(
-                                widget.location,
+                                widget.announceData['location'],
                                 style: TextStyle(fontSize: 14),
                                 softWrap: true,
                                 overflow: TextOverflow.ellipsis,
@@ -136,7 +122,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                     direction: Axis.horizontal,
                     children: [
                       Text(
-                        widget.dateFormatted,
+                        widget.announceData['activity_date'],
                         style: TextStyle(color: Colors.grey.shade500),
                         maxLines: 3,
                         softWrap: true,
@@ -163,8 +149,9 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                             ),
                           ),
                           Text(
-                            widget.conditions['isGenderCon']
-                                ? widget.conditions['genderConText']
+                            widget.announceData['conditions']['isGenderCon']
+                                ? widget.announceData['conditions']
+                                    ['genderConText']
                                 : 'ไม่ระบุ',
                             maxLines: 2,
                             softWrap: true,
@@ -172,7 +159,8 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                           )
                         ],
                       ),
-                      widget.conditions['isDrinkingCon'] ?? false
+                      widget.announceData['conditions']['isDrinkingCon'] ??
+                              false
                           ? Wrap(
                               children: [
                                 Padding(
@@ -192,7 +180,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                               ],
                             )
                           : Text(''),
-                      widget.conditions['isSmokingCon'] ?? false
+                      widget.announceData['conditions']['isSmokingCon'] ?? false
                           ? Wrap(
                               children: [
                                 Padding(
@@ -227,8 +215,9 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          Profile(userId: widget.creator)));
+                                      builder: (context) => Profile(
+                                          userId: widget.announceData['creator']
+                                              ['user_id'])));
                             }),
                             style: ButtonStyle(
                               overlayColor: MaterialStatePropertyAll<Color>(
@@ -249,7 +238,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                                   ),
                                 ),
                                 Text(
-                                  widget.creator,
+                                  widget.announceData['creator']['name'],
                                   style: TextStyle(
                                     decoration: TextDecoration.underline,
                                   ),
@@ -329,15 +318,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                                         isDismissible: true,
                                         builder: (BuildContext context) {
                                           return AnnouncementDetail(
-                                              title: widget.title,
-                                              numPerson: widget.numPerson,
-                                              maxPerson: widget.maxPerson,
-                                              isTypeSelect: widget.isTypeSelect,
-                                              location: widget.location,
-                                              dateFormatted:
-                                                  widget.dateFormatted,
-                                              conditions: widget.conditions,
-                                              creator: widget.creator,
+                                              announceData: widget.announceData,
                                               isViewingDetail: true);
                                         });
                                   }),

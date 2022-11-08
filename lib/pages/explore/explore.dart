@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../widget/announcementCard.dart';
 
 class Explore extends StatefulWidget {
@@ -10,11 +12,64 @@ class Explore extends StatefulWidget {
 
 class _ExploreState extends State<Explore> {
   final _searchController = TextEditingController();
+  List<Map<String, dynamic>> announcedData = [];
+
+  String formatDate(timestamp) {
+    int millisec = (timestamp as Timestamp).toDate().millisecondsSinceEpoch;
+    String dateformatted = DateFormat('วันที่ dd/MM/yyyy เวลา HH:mm')
+        .format(DateTime.fromMillisecondsSinceEpoch(millisec));
+    return dateformatted;
+  }
+
+  getData() async {
+    List<Map<String, dynamic>> listData = [];
+    FirebaseFirestore.instance
+        .collection('announcement')
+        .get()
+        .then((announcement) {
+      for (int i = 0; i < announcement.docs.length; i++) {
+        QueryDocumentSnapshot<Map<String, dynamic>> doc = announcement.docs[i];
+        Map<String, dynamic> data = doc.data();
+        data['activity_id'] = doc.id;
+        data['activity_date'] = formatDate(data['activity_date']);
+        data['creator_ref']
+            .get()
+            .then((DocumentSnapshot<Map<String, dynamic>> doc) {
+          Map<String, dynamic>? creator = doc.data();
+          data['creator'] = {"user_id": doc.id, "name": creator!['name']};
+          //print(data);
+          listData.add(data);
+          setState(() {
+            /*
+            announceData = {
+              .
+              .
+              'activity_id': ,
+              creator:{
+                'user_id': ,
+                'name': ,
+              }
+            }
+            */
+            announcedData = listData;
+          });
+        });
+      }
+    });
+  }
 
   @override
   void initState() {
-    super.initState();
+    getData();
+    // Future.delayed(Duration.zero, () async {
+    //   announcedData = await getData();
+    //   setState(() {
+    //     announcedData = announcedData;
+    //     print(announcedData);
+    //   });
+    // });
     _searchController.addListener(_searchTermAction);
+    super.initState();
   }
 
   @override
@@ -229,84 +284,95 @@ class _ExploreState extends State<Explore> {
                         )
                       ],
                     ))),
-                AnnouncementCard(
-                  title: 'ปั่นจักรยานรอบจุฬา',
-                  numPerson: '1',
-                  maxPerson: '5',
-                  isTypeSelect: false,
-                  location: 'กรุงเทพมหานคร',
-                  dateFormatted: 'วันอังคารที่ 15 พฤศจิกายน 2565',
-                  conditions: {
-                    'isGenderCon': false,
-                    'isSmokingCon': true,
-                    'isDrinkingCon': true
-                  },
-                  creator: 'มั่นคง แสงอำไพ',
-                  isViewingDetail: false,
-                ),
-                AnnouncementCard(
-                  title: 'ตกปลาที่ริมตลิ่ง',
-                  numPerson: '1',
-                  maxPerson: '5',
-                  isTypeSelect: true,
-                  location: 'กรุงเทพมหานคร',
-                  dateFormatted: 'วันพุธที่ 16 พฤศจิกายน 2565',
-                  conditions: {
-                    'isGenderCon': false,
-                    'isSmokingCon': false,
-                    'isDrinkingCon': true
-                  },
-                  creator: 'ณัฐวัตร หะยะมิน',
-                  isViewingDetail: false,
-                ),
-                AnnouncementCard(
-                  title: 'ขี่สเก็ตไปเย็ดสก๊อย',
-                  numPerson: '3',
-                  maxPerson: '10',
-                  isTypeSelect: false,
-                  location: 'กรุงเทพมหานคร',
-                  dateFormatted: 'วันพฤหัสบดีที่ 17 พฤศจิกายน 2565',
-                  conditions: {
-                    'isGenderCon': true,
-                    'isSmokingCon': false,
-                    'isDrinkingCon': false,
-                    'genderConText': 'ชายเท่านั้น'
-                  },
-                  creator: 'สมชาย คำมี',
-                  isViewingDetail: false,
-                ),
-                AnnouncementCard(
-                  title: 'ขี่สเก็ตไปเย็ดสก๊อย',
-                  numPerson: '3',
-                  maxPerson: '10',
-                  isTypeSelect: false,
-                  location: 'กรุงเทพมหานคร',
-                  dateFormatted: 'วันพฤหัสบดีที่ 17 พฤศจิกายน 2565',
-                  conditions: {
-                    'isGenderCon': true,
-                    'isSmokingCon': false,
-                    'isDrinkingCon': false,
-                    'genderConText': 'ชายเท่านั้น'
-                  },
-                  creator: 'สมชาย คำมี',
-                  isViewingDetail: false,
-                ),
-                AnnouncementCard(
-                  title: 'ขี่สเก็ตไปเย็ดสก๊อย',
-                  numPerson: '3',
-                  maxPerson: '10',
-                  isTypeSelect: false,
-                  location: 'กรุงเทพมหานคร',
-                  dateFormatted: 'วันพฤหัสบดีที่ 17 พฤศจิกายน 2565',
-                  conditions: {
-                    'isGenderCon': true,
-                    'isSmokingCon': false,
-                    'isDrinkingCon': false,
-                    'genderConText': 'ชายเท่านั้น'
-                  },
-                  creator: 'สมชาย คำมี',
-                  isViewingDetail: false,
-                )
+                announcedData.isEmpty
+                    ? Text('loading')
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: announcedData.length,
+                        itemBuilder: (context, index) {
+                          return AnnouncementCard(
+                              announceData: announcedData[index],
+                              isViewingDetail: false);
+                        },
+                      ),
+                // AnnouncementCard(
+                //   title: 'ปั่นจักรยานรอบจุฬา',
+                //   numPerson: '1',
+                //   maxPerson: '5',
+                //   isTypeSelect: false,
+                //   location: 'กรุงเทพมหานคร',
+                //   dateFormatted: 'วันอังคารที่ 15 พฤศจิกายน 2565',
+                //   conditions: {
+                //     'isGenderCon': false,
+                //     'isSmokingCon': true,
+                //     'isDrinkingCon': true
+                //   },
+                //   creator: 'มั่นคง แสงอำไพ',
+                //   isViewingDetail: false,
+                // ),
+                // AnnouncementCard(
+                //   title: 'ตกปลาที่ริมตลิ่ง',
+                //   numPerson: '1',
+                //   maxPerson: '5',
+                //   isTypeSelect: true,
+                //   location: 'กรุงเทพมหานคร',
+                //   dateFormatted: 'วันพุธที่ 16 พฤศจิกายน 2565',
+                //   conditions: {
+                //     'isGenderCon': false,
+                //     'isSmokingCon': false,
+                //     'isDrinkingCon': true
+                //   },
+                //   creator: 'ณัฐวัตร หะยะมิน',
+                //   isViewingDetail: false,
+                // ),
+                // AnnouncementCard(
+                //   title: 'ขี่สเก็ตไปเย็ดสก๊อย',
+                //   numPerson: '3',
+                //   maxPerson: '10',
+                //   isTypeSelect: false,
+                //   location: 'กรุงเทพมหานคร',
+                //   dateFormatted: 'วันพฤหัสบดีที่ 17 พฤศจิกายน 2565',
+                //   conditions: {
+                //     'isGenderCon': true,
+                //     'isSmokingCon': false,
+                //     'isDrinkingCon': false,
+                //     'genderConText': 'ชายเท่านั้น'
+                //   },
+                //   creator: 'สมชาย คำมี',
+                //   isViewingDetail: false,
+                // ),
+                // AnnouncementCard(
+                //   title: 'ขี่สเก็ตไปเย็ดสก๊อย',
+                //   numPerson: '3',
+                //   maxPerson: '10',
+                //   isTypeSelect: false,
+                //   location: 'กรุงเทพมหานคร',
+                //   dateFormatted: 'วันพฤหัสบดีที่ 17 พฤศจิกายน 2565',
+                //   conditions: {
+                //     'isGenderCon': true,
+                //     'isSmokingCon': false,
+                //     'isDrinkingCon': false,
+                //     'genderConText': 'ชายเท่านั้น'
+                //   },
+                //   creator: 'สมชาย คำมี',
+                //   isViewingDetail: false,
+                // ),
+                // AnnouncementCard(
+                //   title: 'ขี่สเก็ตไปเย็ดสก๊อย',
+                //   numPerson: '3',
+                //   maxPerson: '10',
+                //   isTypeSelect: false,
+                //   location: 'กรุงเทพมหานคร',
+                //   dateFormatted: 'วันพฤหัสบดีที่ 17 พฤศจิกายน 2565',
+                //   conditions: {
+                //     'isGenderCon': true,
+                //     'isSmokingCon': false,
+                //     'isDrinkingCon': false,
+                //     'genderConText': 'ชายเท่านั้น'
+                //   },
+                //   creator: 'สมชาย คำมี',
+                //   isViewingDetail: false,
+                // )
               ],
             ),
           ),
