@@ -1,7 +1,4 @@
-2022/10/24-11:14:36.656 1fcc Reusing MANIFEST C:\Users\chopa\AppData\Local\Temp\flutter_tools.df1c4efb\flutter_tools_chrome_device.4bcd22c1\Default\Site Characteristics Database/MANIFEST-000001
-2022/10/24-11:14:36.657 1fcc Recovering log #3
-2022/10/24-11:14:36.657 1fcc Level-0 table #6: started
-2022/10/24-11:14:36.667 1fcc Level-0 table #6: 226 bytes OK
-2022/10/24-11:14:36.667 1fcc Recovering log #6
-2022/10/24-11:14:36.668 1fcc Reusing old log C:\Users\chopa\AppData\Local\Temp\flutter_tools.df1c4efb\flutter_tools_chrome_device.4bcd22c1\Default\Site Characteristics Database/000006.log 
-2022/10/24-11:14:36.677 1fcc Delete type=0 #3
+2022/11/09-21:59:38.401 4fa0 Reusing MANIFEST C:\Users\chopa\AppData\Local\Temp\flutter_tools.5e6c8c7f\flutter_tools_chrome_device.ca0dda7b\Default\Site Characteristics Database/MANIFEST-000001
+2022/11/09-21:59:38.402 4fa0 Recovering log #6
+2022/11/09-21:59:38.403 4fa0 Reusing old log C:\Users\chopa\AppData\Local\Temp\flutter_tools.5e6c8c7f\flutter_tools_chrome_device.ca0dda7b\Default\Site Characteristics Database/000006.log 
+2022/11/09-21:59:38.403 4fa0 Delete type=0 #3

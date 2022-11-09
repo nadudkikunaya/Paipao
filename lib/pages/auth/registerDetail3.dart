@@ -216,30 +216,32 @@ class _RegisterDetail3State extends State<RegisterDetail3> {
                             showLoaderDialog(context);
                             try {
                               // Create the user in Firebase
-                              final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                              await FirebaseAuth.instance.createUserWithEmailAndPassword(
                                 email: widget.regData['regEmail'],
                                 password: widget.regData['regPassword'],
-                              );
+                              )
+                              // Use callback functions instead of just leaving the code outside to tie what will be done if success together with the await (https://www.youtube.com/watch?v=zNjxDUmkseA 2:27:07)
+                              .then((credential) {
+                                // TODO: Upload the additional user data to Cloud Firesotre
+                                final db = FirebaseFirestore.instance;
+                                db.collection('users')
+                                  .doc(credential.user!.uid)
+                                  .set({
+                                    "name": widget.regData['regName'],
+                                    "likes": "to test",
+                                  })
+                                  .onError((e, _) => print('Error writing document: $e'));
 
-                              // TODO: Upload the additional user data to Cloud Firesotre
-                              final db = FirebaseFirestore.instance;
-                              db
-                                .collection('users')
-                                .doc(credential.user!.uid)
-                                .set({
-                                  "name": widget.regData['regName'],
-                                  "likes": "to test",
-                                })
-                                .onError((e, _) => print('Error writing document: $e'));
+                                // The server-side process is completed
+                                if (!mounted) return; // Need to add this after every await calls that will be followed with any BuildContext (https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps)
+                                Navigator.pop(context);
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterWaitApprove()));
+                              });
 
-                              // Completed the server-side process
-                              if (!mounted) return; // Need to add this after every await calls that will be followed with any BuildContext (https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps)
-                              Navigator.pop(context);
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          RegisterWaitApprove()));
                             } on FirebaseAuthException catch (e) {
                               if (e.code == 'weak-password') {
                                 Navigator.pop(context);

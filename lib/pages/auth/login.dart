@@ -4,12 +4,12 @@ import 'package:paipao/pages/auth/registerDetail1.dart';
 import 'package:paipao/pages/mainWrapper.dart';
 
 // https://stackoverflow.com/questions/51415236/show-circular-progress-dialog-in-login-screen-in-flutter-how-to-implement-progr
-showLoaderDialog(BuildContext context){
+showLoaderDialog(BuildContext context, String message){
   AlertDialog alert=AlertDialog(
     content: Row(
       children: [
         CircularProgressIndicator(),
-        Container(margin: EdgeInsets.only(left: 7),child:Text('เรากำลังลงชื่อคุณเข้าสู่ระบบ')),
+        Container(margin: EdgeInsets.only(left: 7),child:Text(message)),
       ],
     ),
   );
@@ -92,6 +92,17 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // A listener than will activate when there is an auth state change (https://firebase.google.com/docs/auth/flutter/manage-users)
+    // var x = FirebaseAuth.instance
+    //   .authStateChanges()
+    //   .listen((User? user) {
+    //     if (user != null) {
+    //       print(user.uid);
+    //     } else {
+    //       print('bruh');
+    //     }
+    //   });
+
     return Scaffold(
       backgroundColor: Colors.blue,
       body: Center(
@@ -181,64 +192,97 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
                                       controller: loginPasswordController,
                                     ),
                                   ),
-                                  Center(
-                                    child: Container(
-                                      width: 100,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.06,
-                                      margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.03),
-                                      child: ElevatedButton(
-                                        onPressed: () async {
-                                          if (_formLoginKey.currentState!
-                                              .validate()) { // If the form is valid...
-                                            showLoaderDialog(context);
-                                            print(loginEmailController.text);
-                                            print(loginPasswordController.text);
-                                            try {
-                                              final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                                                email: loginEmailController.text,
-                                                password: loginPasswordController.text
-                                              );
-                                              if (!mounted) return;
-                                              Navigator.pop(context);
-                                              Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          MainWrapper()));
-                                            } on FirebaseAuthException catch (e) {
-                                              if (e.code == 'user-not-found') {
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(content: Text('ไม่พบอีเมลล์นี้ในระบบ')),
-                                                );
-                                              } else if (e.code == 'wrong-password') {
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  const SnackBar(content: Text('รหัสผ่านไม่ถูกต้อง')),
-                                                );
-                                              } else {  // Any other FirebaseAuthExceptions
-                                                Navigator.pop(context);
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(content: Text(e.toString())),
-                                                );
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                        child: Container(
+                                          width: 100,
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.06,
+                                          margin: EdgeInsets.only(
+                                              top: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03),
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              if (_formLoginKey.currentState!
+                                                  .validate()) { // If the form is valid...
+                                                showLoaderDialog(context, 'เรากำลังลงชื่อคุณเข้าสู่ระบบ');
+                                                try {
+                                                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                                                    email: loginEmailController.text,
+                                                    password: loginPasswordController.text
+                                                  )
+                                                  .then((credential) {
+                                                    print("Logged in");
+                                                    if (!mounted) return;
+                                                    Navigator.pop(context);
+
+                                                    
+                                                    // Navigator.pushReplacement(
+                                                    //     context,
+                                                    //     MaterialPageRoute(
+                                                    //         builder: (context) =>
+                                                    //             MainWrapper()));
+                                                  });
+                                                } on FirebaseAuthException catch (e) {
+                                                  if (e.code == 'user-not-found') {
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                      const SnackBar(content: Text('ไม่พบอีเมลล์นี้ในระบบ')),
+                                                    );
+                                                  } else if (e.code == 'wrong-password') {
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                      const SnackBar(content: Text('รหัสผ่านไม่ถูกต้อง')),
+                                                    );
+                                                  } else {  // Any other FirebaseAuthExceptions
+                                                    Navigator.pop(context);
+                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                      SnackBar(content: Text(e.toString())),
+                                                    );
+                                                  }
+                                                } catch (e) { // Other Exceptions unrelated to FirebaseAuthException
+                                                  Navigator.pop(context);
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(content: Text(e.toString())),
+                                                  );
+                                                }
                                               }
-                                            } catch (e) { // Other Exceptions unrelated to FirebaseAuthException
-                                              Navigator.pop(context);
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(content: Text(e.toString())),
-                                              );
-                                            }
-                                          }
-                                        },
-                                        child: const Text('เข้าสู่ระบบ'),
+                                            },
+                                            child: const Text('เข้าสู่ระบบ'),
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                       Center(
+                                        child: Container(
+                                          width: 100,
+                                          height:
+                                              MediaQuery.of(context).size.height *
+                                                  0.06,
+                                          margin: EdgeInsets.only(
+                                              top: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03),
+                                          child: ElevatedButton(
+                                            onPressed: () async {
+                                              showLoaderDialog(context, 'เรากำลังลงชื่อคุณออกจากระบบ');
+                                              await FirebaseAuth.instance.signOut()
+                                              .then((value) {
+                                                print("Logged out");
+                                                if (!mounted) return;
+                                                Navigator.pop(context);
+                                              });
+                                            },
+                                            child: const Text('ดีบัคจ้า'),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
