@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:paipao/pages/chat/chat.dart';
 import './feed/feed.dart';
 import './explore/explore.dart';
-import './chat/chat.dart';
 import './profile/profile.dart';
 
 class MainWrapper extends StatefulWidget {
