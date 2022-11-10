@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 2022/11/09-22:15:49.760 3204 Reusing MANIFEST C:\Users\INatZ\AppData\Local\Temp\flutter_tools.499ba06e\flutter_tools_chrome_device.ed20ccc4\Default\Site Characteristics Database/MANIFEST-000001
 2022/11/09-22:15:49.760 3204 Recovering log #6
 2022/11/09-22:15:49.761 3204 Reusing old log C:\Users\INatZ\AppData\Local\Temp\flutter_tools.499ba06e\flutter_tools_chrome_device.ed20ccc4\Default\Site Characteristics Database/000006.log 
@@ -9,4 +10,10 @@
 2022/10/26-22:40:15.165 5760 Table #4: 15 entries OK
 2022/10/26-22:40:15.167 5760 Archiving C:\Users\INatZ\AppData\Local\Temp\flutter_tools.57fca4c6\flutter_tools_chrome_device.3a7d1051\Default\Site Characteristics Database/MANIFEST-000001: OK
 2022/10/26-22:40:15.173 5760 **** Repaired leveldb C:\Users\INatZ\AppData\Local\Temp\flutter_tools.57fca4c6\flutter_tools_chrome_device.3a7d1051\Default\Site Characteristics Database; recovered 1 files; 453 bytes. Some data may have been lost. ****
+>>>>>>> login
+=======
+2022/11/09-21:59:38.401 4fa0 Reusing MANIFEST C:\Users\chopa\AppData\Local\Temp\flutter_tools.5e6c8c7f\flutter_tools_chrome_device.ca0dda7b\Default\Site Characteristics Database/MANIFEST-000001
+2022/11/09-21:59:38.402 4fa0 Recovering log #6
+2022/11/09-21:59:38.403 4fa0 Reusing old log C:\Users\chopa\AppData\Local\Temp\flutter_tools.5e6c8c7f\flutter_tools_chrome_device.ca0dda7b\Default\Site Characteristics Database/000006.log 
+2022/11/09-21:59:38.403 4fa0 Delete type=0 #3
 >>>>>>> login

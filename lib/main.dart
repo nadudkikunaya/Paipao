@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/login.dart';
+import 'package:paipao/pages/auth/loginCheck.dart';
 import 'pages/developerMenu.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: DeveloperMenu(),
+      home: LoginCheck(),
     );
   }
 }
