@@ -21,9 +21,10 @@ class AnnouncementDetail extends StatefulWidget {
 class _AnnouncementDetailState extends State<AnnouncementDetail> {
   @override
   List<Map<String, dynamic>> participants = [];
-  final String temp_user_id = 'KbtEqJMBd1vOEu3cppZ6'; //A
+  //final String temp_user_id = 'KbtEqJMBd1vOEu3cppZ6'; //A
   //final String temp_user_id = 'w7oYKajZtmNwOOrujJYm'; //B
   //final String temp_user_id = 'lze0oAskkL1Z7r24a0R7'; //C
+  final String temp_user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1'; //test01
   getData() async {
     List<Map<String, dynamic>> listData = [];
     await FirebaseFirestore.instance
