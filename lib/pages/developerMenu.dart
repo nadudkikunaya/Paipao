@@ -53,7 +53,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const RegisterDetail3(
+                          builder: (context) => const RegisterDetail2(
                                 regData: {},
                               )),
                     );

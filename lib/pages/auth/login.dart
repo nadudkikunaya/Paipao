@@ -240,7 +240,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
 
                                                     if (data?['approved'] ==
                                                         false) {
-                                                      throw new FirebaseAuthException(
+                                                      throw FirebaseAuthException(
                                                           code: 'not-approved');
                                                     }
 
