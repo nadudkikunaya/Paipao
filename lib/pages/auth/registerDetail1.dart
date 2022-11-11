@@ -11,17 +11,25 @@ enum IsDrinking { no, yes }
 enum IsVegetarian { no, yes }
 
 class RegisterDetail1 extends StatefulWidget {
-  const RegisterDetail1({super.key});
+  final Map<String, dynamic> regData;
+  const RegisterDetail1(
+      {super.key,
+      required this.regData}); // receive reg credentials from the last page (https://docs.flutter.dev/cookbook/navigation/passing-data)
+  // To refer to said "regCred" in the state class below, refer to it as "widget.regCred" (https://stackoverflow.com/questions/50287995/passing-data-to-statefulwidget-and-accessing-it-in-its-state-in-flutter)
 
   @override
   State<RegisterDetail1> createState() => _RegisterDetail1State();
 }
 
 class _RegisterDetail1State extends State<RegisterDetail1> {
+  final nameController = TextEditingController(),
+      phoneNoController = TextEditingController();
+
   bool isDateSelected = false;
   late DateTime birthDate; // instance of DateTime
   String birthDateInString = 'วันเดือนปีเกิด';
 
+  // I don't see why these radio buttons can be null. But the linter will complain otherwise.
   Gender? gender = Gender.male;
   IsSmoking? isSmoking = IsSmoking.no;
   IsDrinking? isDrinking = IsDrinking.no;
@@ -73,6 +81,7 @@ class _RegisterDetail1State extends State<RegisterDetail1> {
                                   //   }
                                   //   return null;
                                   // },
+                                  controller: nameController,
                                 ),
                               ),
                               Container(
@@ -95,6 +104,7 @@ class _RegisterDetail1State extends State<RegisterDetail1> {
                                   //   }
                                   //   return null;
                                   // },
+                                  controller: phoneNoController,
                                 ),
                               ),
                               Container(
@@ -396,10 +406,20 @@ class _RegisterDetail1State extends State<RegisterDetail1> {
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
                           onPressed: () {
+                            widget.regData['name'] = nameController.text;
+                            widget.regData['phoneNo'] = phoneNoController.text;
+                            widget.regData['birthDate'] = birthDate;
+                            widget.regData['gender'] = gender;
+                            widget.regData['isSmoking'] = isSmoking;
+                            widget.regData['isDrinking'] = isDrinking;
+                            widget.regData['isVegetarian'] = isVegetarian;
+
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RegisterDetail2()));
+                                    builder: (context) => RegisterDetail2(
+                                          regData: widget.regData,
+                                        )));
                           },
                           child: Text('อ่ะ ต่อไป')),
                     ),

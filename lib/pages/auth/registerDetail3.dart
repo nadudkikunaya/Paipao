@@ -1,11 +1,37 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:paipao/pages/auth/registerDetail1.dart';
 import 'package:paipao/pages/auth/registerWaitApprove.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+// https://stackoverflow.com/questions/51415236/show-circular-progress-dialog-in-login-screen-in-flutter-how-to-implement-progr
+showLoaderDialog(BuildContext context) {
+  AlertDialog alert = AlertDialog(
+    content: Row(
+      children: [
+        CircularProgressIndicator(),
+        Container(
+            margin: EdgeInsets.only(left: 7),
+            child: Text('เรากำลังทำการสมัครสมาชิกให้คุณ')),
+      ],
+    ),
+  );
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return WillPopScope(onWillPop: () async => false, child: alert);
+    },
+  );
+}
 
 class RegisterDetail3 extends StatefulWidget {
-  const RegisterDetail3({super.key});
+  final Map<String, dynamic> regData;
+  const RegisterDetail3({super.key, required this.regData});
 
   @override
   State<RegisterDetail3> createState() => _RegisterDetail3State();
@@ -177,7 +203,12 @@ class _RegisterDetail3State extends State<RegisterDetail3> {
                                 )
                               : Image.file(
                                   File(_pidFile!.path),
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
+                                  alignment: Alignment.center,
+                                  width: MediaQuery.of(context).size.width - 80,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.4,
+                                  isAntiAlias: true,
                                 )
                         ],
                       ),
@@ -190,12 +221,88 @@ class _RegisterDetail3State extends State<RegisterDetail3> {
                       width: MediaQuery.of(context).size.width * 0.3,
                       alignment: Alignment.centerRight,
                       child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        RegisterWaitApprove()));
+                          onPressed: () async {
+                            // widget.regData['profileFile'] = _profileFile;
+                            // widget.regData['pidFile'] = _pidFile;
+                            showLoaderDialog(context);
+                            /* AUTH CREATE */
+                            try {
+                              // Create the user in Firebase
+                              await FirebaseAuth.instance
+                                  .createUserWithEmailAndPassword(
+                                email: widget.regData['regEmail'],
+                                password: widget.regData['regPassword'],
+                              )
+                                  // Use callback functions instead of just leaving the code outside to tie what will be done if success together with the await (https://www.youtube.com/watch?v=zNjxDUmkseA 2:27:07)
+                                  .then((credential) {
+                                // TODO: Upload the additional user data to Cloud Firesotre
+                                final db = FirebaseFirestore.instance;
+                                db
+                                    .collection('users')
+                                    .doc(credential.user!.uid)
+                                    .set({
+                                  'name': widget.regData['name'],
+                                  'phone': widget.regData['phoneNo'],
+                                  'birthdate': widget.regData['birthDate'],
+                                  'gender': widget.regData['gender']
+                                      .toString()
+                                      .replaceAll('Gender.', ''),
+                                  'activities': widget.regData['favouriteList'],
+                                  'description': '',
+                                  'preference': {
+                                    'isSmoking':
+                                        enumToBool(widget.regData['isSmoking']),
+                                    'isDrinkin': enumToBool(
+                                        widget.regData['isDrinking']),
+                                    'isVegetarian': enumToBool(
+                                        widget.regData['isVegetarian']),
+                                  },
+                                  'approved': false
+                                }).then((value) {
+                                  uploadFile(credential.user!.uid);
+                                }).onError((e, _) {
+                                  print('Error writing document: $e');
+                                });
+
+                                // The server-side process is completed
+                                if (!mounted)
+                                  return; // Need to add this after every await calls that will be followed with any BuildContext (https://stackoverflow.com/questions/68871880/do-not-use-buildcontexts-across-async-gaps)
+                                Navigator.pop(context);
+                                print('completed');
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterWaitApprove()));
+                              });
+                            } on FirebaseAuthException catch (e) {
+                              if (e.code == 'weak-password') {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'ความซับซ้อนของรหัสผ่านน้อยเกิน')),
+                                );
+                              } else if (e.code == 'email-already-in-use') {
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          'อีเมลล์ที่ให้มานั้นได้ถูกใช้ไปแล้ว')),
+                                );
+                              } else {
+                                // Any other FirebaseAuthExceptions
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(e.toString())),
+                                );
+                              }
+                            } catch (e) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e.toString())),
+                              );
+                            }
                           },
                           child: Text('อ่ะ ต่อไป')),
                     ),
@@ -264,5 +371,71 @@ class _RegisterDetail3State extends State<RegisterDetail3> {
         _pidFile = pickedFile!;
       });
     }
+  }
+
+  void uploadFile(String uid) async {
+    print('inhere');
+    final fileProfile = File(_profileFile!.path);
+    final filePID = File(_pidFile!.path);
+    final storageRef = FirebaseStorage.instance.ref();
+    final fileName = '${DateTime.now().millisecondsSinceEpoch}_$uid';
+
+    final uploadTaskProfile =
+        await storageRef.child('profile/$fileName.jpg').putFile(fileProfile);
+
+    final uploadTaskPIDFile =
+        await storageRef.child('pid/$fileName.jpg').putFile(filePID);
+
+    print('done');
+    final profileURL = storageRef
+        .child('profile/$fileName.jpg')
+        .getDownloadURL()
+        .then((link) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({'profile': link.toString()});
+    });
+
+    final pidURL = storageRef
+        .child('pid/$fileName.jpg')
+        .getDownloadURL()
+        .then((link) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .update({'pid': link.toString()});
+    });
+
+    // uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+    //   switch (taskSnapshot.state) {
+    //     case TaskState.running:
+    //       final progress =
+    //           100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+    //       print("Upload is $progress% complete.");
+    //       break;
+    //     case TaskState.paused:
+    //       print("Upload is paused.");
+    //       break;
+    //     case TaskState.canceled:
+    //       print("Upload was canceled");
+    //       break;
+    //     case TaskState.error:
+    //       // Handle unsuccessful uploads
+    //       break;
+    //     case TaskState.success:
+    //       // Handle successful uploads on complete
+    //       // ...
+    //       break;
+    //   }
+    // });
+  }
+
+  bool enumToBool(dynamic choice) {
+    choice = choice.toString();
+    if (choice.contains('.yes')) {
+      return true;
+    }
+    return false;
   }
 }

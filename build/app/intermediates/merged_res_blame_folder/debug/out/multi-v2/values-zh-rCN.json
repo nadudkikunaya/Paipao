@@ -30,11 +30,11 @@
                         "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "20",
+                        "startLines": "24",
                         "startColumns": "4",
-                        "startOffsets": "1869",
+                        "startOffsets": "2238",
                         "endColumns": "100",
-                        "endOffsets": "1965"
+                        "endOffsets": "2334"
                     }
                 },
                 {
@@ -52,6 +52,23 @@
                         "startOffsets": "917",
                         "endColumns": "98",
                         "endOffsets": "1011"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\05304738454a7c6fee076a188df4c25d\\transformed\\browser-1.4.0\\res\\values-zh-rCN\\values-zh-rCN.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,138,230,331",
+                        "endColumns": "82,91,100,92",
+                        "endOffsets": "133,225,326,419"
+                    },
+                    "to": {
+                        "startLines": "20,21,22,23",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "1869,1952,2044,2145",
+                        "endColumns": "82,91,100,92",
+                        "endOffsets": "1947,2039,2140,2233"
                     }
                 }
             ]

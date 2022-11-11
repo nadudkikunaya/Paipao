@@ -4,6 +4,23 @@
             "outputFile": "E:\\paipao\\paipao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-am\\values-am.xml",
             "map": [
                 {
+                    "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\05304738454a7c6fee076a188df4c25d\\transformed\\browser-1.4.0\\res\\values-am\\values-am.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,151,246,352",
+                        "endColumns": "95,94,105,96",
+                        "endOffsets": "146,241,347,444"
+                    },
+                    "to": {
+                        "startLines": "20,21,22,23",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "2061,2157,2252,2358",
+                        "endColumns": "95,94,105,96",
+                        "endOffsets": "2152,2247,2353,2450"
+                    }
+                },
+                {
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\3ff720be07735976176520d1c05fb799\\transformed\\jetified-play-services-base-18.0.1\\res\\values-am\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
@@ -47,11 +64,11 @@
                         "endOffsets": "151"
                     },
                     "to": {
-                        "startLines": "20",
+                        "startLines": "24",
                         "startColumns": "4",
-                        "startOffsets": "2061",
+                        "startOffsets": "2455",
                         "endColumns": "100",
-                        "endOffsets": "2157"
+                        "endOffsets": "2551"
                     }
                 }
             ]
