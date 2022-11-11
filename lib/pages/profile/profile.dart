@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:paipao/pages/editProfile/editProfile.dart';
+import 'package:paipao/pages/newPost/newPost.dart';
 import 'dart:ui';
 import 'Information.dart';
 import 'Post.dart';
@@ -51,17 +52,27 @@ class _ProfileState extends State<Profile> {
           Padding(
             padding: EdgeInsets.symmetric(),
             child: IconButton(
-              icon: Icon(Icons.add_circle),
+              icon: Icon(Icons.post_add),
               iconSize: 32,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewPost()),
+                );
+              },
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2),
+            padding: EdgeInsets.symmetric(),
             child: IconButton(
               icon: const Icon(Icons.settings_outlined),
               iconSize: 32,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfile()),
+                );
+              },
             ),
           ),
         ]),
@@ -105,25 +116,22 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-              Container(
-                child: Wrap(
-                  runSpacing: 5,
-                  // alignment: WrapAlignment.start,
-                  // //direction: Axis.horizontal,
-                  children: [
-                    Status("นักแคมป์", "มือใหม่",
-                        Color.fromARGB(255, 38, 212, 255)),
-                    Status(
-                        "นักสู้", "มือฉมัง", Color.fromARGB(255, 157, 255, 45)),
-                    Status("นักต้มตุ๋น", "มือฉมัง",
-                        Color.fromARGB(255, 255, 57, 146)),
-                    Status("นักรบไฟนอล", "มือฉมัง",
-                        Color.fromARGB(255, 231, 255, 53)),
-                    Status("นักกินจุ", "มือฉมัง",
-                        Color.fromARGB(255, 175, 84, 255)),
-                  ],
-                ),
+              Wrap(
+                spacing: 5,
+                children: [
+                  Status(
+                      "นักแคมป์", "มือใหม่", Color.fromARGB(255, 38, 212, 255)),
+                  Status(
+                      "นักสู้", "มือฉมัง", Color.fromARGB(255, 157, 255, 45)),
+                  Status("นักต้มตุ๋น", "มือฉมัง",
+                      Color.fromARGB(255, 255, 57, 146)),
+                  Status("นักรบไฟนอล", "มือฉมัง",
+                      Color.fromARGB(255, 231, 255, 53)),
+                  Status(
+                      "นักกินจุ", "มือฉมัง", Color.fromARGB(255, 175, 84, 255)),
+                ],
               ),
+
               Container(
                 child: Padding(
                   padding:
