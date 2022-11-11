@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Tag extends StatefulWidget {
-  const Tag({super.key, required this.label});
+  const Tag({super.key, required this.label, this.updateParent});
   final String label;
+  final Function? updateParent;
 
   @override
   State<Tag> createState() => _TagState();
@@ -14,8 +15,10 @@ class _TagState extends State<Tag> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        isTapped = !isTapped;
+        widget.updateParent!(widget.label);
         setState(() {
-          isTapped = !isTapped;
+          isTapped = isTapped;
         });
       },
       child: Container(
