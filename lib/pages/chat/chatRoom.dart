@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -13,6 +14,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:open_filex/open_filex.dart';
 
+enum Status { delivered, error, seen, sending, sent }
+
 class ChatRoom extends StatefulWidget {
   const ChatRoom({super.key});
 
@@ -22,33 +25,99 @@ class ChatRoom extends StatefulWidget {
 
 class _ChatRoomState extends State<ChatRoom> {
   List<types.Message> _messages = [];
-  final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac');
+  Map<String, Map<String, dynamic>> chatParticipants = {};
+  final chat_id = 'wxxf9Xsu8iSr3dK3xXED';
+  final String user_id = 'KbtEqJMBd1vOEu3cppZ6';
+  // ignore: unnecessary_string_interpolations
+  //final _user = types.User(id: 'f0J6UlbRBagsL42chvzWGxob6ss2');
+  types.User _user = types.User(id: '');
+  bool loading = true;
 
   @override
   void initState() {
     super.initState();
-    _loadMessages();
+    _user = types.User(id: user_id);
+    _loadChatUser();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: Text('ห้องแชท')),
-        body: Chat(
-          messages: _messages,
-          onAttachmentPressed: _handleAttachmentPressed,
-          onMessageTap: _handleMessageTap,
-          onPreviewDataFetched: _handlePreviewDataFetched,
-          onSendPressed: _handleSendPressed,
-          showUserAvatars: true,
-          showUserNames: true,
-          user: _user,
-        ),
+        body: loading
+            ? Center(
+                child: Text('loading'),
+              )
+            : StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('chats')
+                    .doc(chat_id)
+                    .collection('messages')
+                    .orderBy('createdAt', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: Text('กำลังโหลดข้อมูล'),
+                    );
+                  } else if (snapshot.hasData) {
+                    return Chat(
+                      messages: formatMessage(snapshot.data) ?? [],
+                      onAttachmentPressed: _handleAttachmentPressed,
+                      onMessageTap: _handleMessageTap,
+                      onPreviewDataFetched: _handlePreviewDataFetched,
+                      onSendPressed: _handleSendPressed,
+                      showUserAvatars: true,
+                      showUserNames: true,
+                      user: _user,
+                    );
+                  } else {
+                    return Chat(
+                      messages: [],
+                      onAttachmentPressed: _handleAttachmentPressed,
+                      onMessageTap: _handleMessageTap,
+                      onPreviewDataFetched: _handlePreviewDataFetched,
+                      onSendPressed: _handleSendPressed,
+                      showUserAvatars: true,
+                      showUserNames: true,
+                      user: _user,
+                    );
+                  }
+                },
+              ),
       );
 
   void _addMessage(types.Message message) {
-    setState(() {
-      _messages.insert(0, message);
-    });
+    Map<String, dynamic> temp_msg = message.toJson();
+    temp_msg['status'] = 'sent';
+    temp_msg['createdAt'] =
+        Timestamp.fromMillisecondsSinceEpoch(temp_msg['createdAt']);
+    print('add message');
+    print(temp_msg);
+    FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat_id)
+        .collection('messages')
+        .add(temp_msg);
+    //     .add({
+    //   'author': {
+    //     'id': message.author.id,
+    //   },
+    //   'createdAt': Timestamp.fromMillisecondsSinceEpoch(message.createdAt!),
+    //   'id': message.id,
+    //   'status': 'sent',
+    //   'type': message.type.toString(),
+    //   'message': message.repliedMessage!.toJson()
+    // });
+    // .add({
+    //   'author': message.author,
+    //   'createdAt': message.createdAt,
+    //   'id': message.id,
+    //   'status': 'sent',
+    //   'text': message.
+    // });
+    // setState(() {
+    //   _messages.insert(0, message);
+    // });
   }
 
   void _handleAttachmentPressed() {
@@ -206,18 +275,98 @@ class _ChatRoomState extends State<ChatRoom> {
       id: const Uuid().v4(),
       text: message.text,
     );
-
+    print('before add message');
     _addMessage(textMessage);
   }
 
-  void _loadMessages() async {
-    final response = await rootBundle.loadString('assets/messages.json');
-    final messages = (jsonDecode(response) as List)
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
+  void _loadChatUser() async {
+    final res = await FirebaseFirestore.instance
+        .collection('announcement')
+        .doc(chat_id)
+        .collection('participants')
+        .get();
+
+    print('get each user');
+    for (var docId in res.docs) {
+      Map<String, dynamic> data = docId.data();
+      if (data['isAllowed']) {
+        await data['user_ref']
+            .get()
+            .then((DocumentSnapshot<Map<String, dynamic>> userDoc) async {
+          Map<String, dynamic>? userData = userDoc.data();
+          chatParticipants[userDoc.id] = {
+            'firstName': userData?['name'],
+            'imageUrl': userData?['profile'],
+            'id': userDoc.id
+          };
+          setState(() {
+            chatParticipants = chatParticipants;
+          });
+          print(chatParticipants);
+        });
+      }
+    }
+    print('get each user finish');
+    setState(() {
+      loading = false;
+    });
+    //_loadMessages();
+  }
+
+  List<types.Message>? formatMessage(
+      QuerySnapshot<Map<String, dynamic>>? data) {
+    print('it was here');
+    final msg = data?.docs.map((e) {
+      print('data');
+      Map<String, dynamic> data = e.data();
+      print(data);
+      data['author'] = chatParticipants[data['author']['id']];
+      data['createdAt'] =
+          (data['createdAt'] as Timestamp).toDate().millisecondsSinceEpoch;
+      return types.Message.fromJson(data);
+    }).toList();
+    return msg;
+  }
+
+  void _loadMessages(QuerySnapshot<Map<String, dynamic>>? data) async {
+    print('get message');
+    QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat_id)
+        .collection('messages')
+        .get();
+    // var temp;
+    // res.forEach(
+    //   (element) {
+    //     final test = element.docs.map((e) {
+    //       print(e.data());
+    //       Map<String, dynamic> data = e.data();
+    //       data['author'] = chatParticipants[data['author']['id']];
+    //       data['createdAt'] =
+    //           (data['createdAt'] as Timestamp).toDate().millisecondsSinceEpoch;
+    //       return types.Message.fromJson(data);
+    //     }).toList();
+    //     print(test);
+    //     temp = test;
+    //   },
+    // );
+    final test = res.docs.map((e) {
+      print(e.data());
+      Map<String, dynamic> data = e.data();
+      data['author'] = chatParticipants[data['author']['id']];
+      data['createdAt'] =
+          (data['createdAt'] as Timestamp).toDate().millisecondsSinceEpoch;
+      return types.Message.fromJson(data);
+    }).toList();
+
+    print(test);
+    // final response = await rootBundle.loadString('assets/test.json');
+    // final messages = (jsonDecode(response) as List)
+    //     .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
+    //     .toList();
 
     setState(() {
-      _messages = messages;
+      _messages = test;
     });
   }
 }

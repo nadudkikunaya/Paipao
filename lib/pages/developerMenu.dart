@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/login.dart';
 import 'package:paipao/pages/auth/registerDetail2.dart';
 import 'package:paipao/pages/auth/registerDetail3.dart';
+import 'package:paipao/pages/chat/chatRoom.dart';
 import 'package:paipao/pages/explore/createAnnouncement.dart';
 import 'package:paipao/pages/factory.dart';
 import 'mainWrapper.dart';
@@ -53,8 +54,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateAnnouncement()),
+                      MaterialPageRoute(builder: (context) => const ChatRoom()),
                     );
                   },
                   style:
