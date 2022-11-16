@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:paipao/pages/chat/chatRoom.dart';
 
 import 'announcementCard.dart';
 import 'memberTab.dart';
@@ -22,11 +23,12 @@ class AnnouncementDetail extends StatefulWidget {
 class _AnnouncementDetailState extends State<AnnouncementDetail> {
   @override
   List<Map<String, dynamic>> participants = [];
-  //final String temp_user_id = 'KbtEqJMBd1vOEu3cppZ6'; //A
-  //final String temp_user_id = 'w7oYKajZtmNwOOrujJYm'; //B
-  //final String temp_user_id = 'lze0oAskkL1Z7r24a0R7'; //C
-  //final String temp_user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1'; //test01
-  final String temp_user_id = FirebaseAuth.instance.currentUser!.uid;
+  //final String user_id = 'KbtEqJMBd1vOEu3cppZ6'; //A
+  //final String user_id = 'w7oYKajZtmNwOOrujJYm'; //B
+  //final String user_id = 'lze0oAskkL1Z7r24a0R7'; //C
+  final String user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1'; //test01
+  //final String user_id = 'f0J6UlbRBagsL42chvzWGxob6ss2'; //test02
+  //final String user_id = FirebaseAuth.instance.currentUser!.uid;
 
   getData() async {
     List<Map<String, dynamic>> listData = [];
@@ -38,6 +40,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
         .then((participantsCollection) async {
       for (var participantDoc in participantsCollection.docs) {
         Map<String, dynamic> data = participantDoc.data();
+        print(data);
         await data['user_ref']
             .get()
             .then((DocumentSnapshot<Map<String, dynamic>> doc) {
@@ -60,7 +63,15 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
 
   void joinActivity() {
     //print('activity_id :' + widget.announceData['activity_id']);
-    print(widget.announceData);
+    if (participants.length >= widget.announceData['capacity']) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return SnackBar(content: Text('คนเข้าร่วมเต็มแล้ว'));
+        },
+      );
+      return;
+    }
     String activity_id = widget.announceData['activity_id'];
     DocumentReference<Map<String, dynamic>> announce_ref =
         FirebaseFirestore.instance.doc('announcement/' + activity_id);
@@ -68,7 +79,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
     print('add announcement ref in user');
     FirebaseFirestore.instance
         .collection('users')
-        .doc(temp_user_id)
+        .doc(user_id)
         .collection('announcement')
         .doc(activity_id)
         .set({
@@ -87,6 +98,8 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
           .update({
         'numJoin': FieldValue.increment(1),
       });
+
+      addChatRoom();
       isUpdateNumJoin = true;
     } else if (widget.announceData['isTypeSelect'] == true &&
         widget.announceData['capacity'] > widget.announceData['numJoin']) {
@@ -96,14 +109,38 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
 
     print('add user to participants in activity');
     DocumentReference<Map<String, dynamic>> user_ref =
-        FirebaseFirestore.instance.doc('users/' + temp_user_id);
+        FirebaseFirestore.instance.doc('users/' + user_id);
     FirebaseFirestore.instance
         .collection('announcement')
         .doc(activity_id)
         .collection('participants')
-        .doc(temp_user_id)
+        .doc(user_id)
         .set({'isAllowed': isAllowed, 'user_ref': user_ref});
     refresh(isUpdateNumJoin);
+  }
+
+  void addChatRoom() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_id)
+        .collection('chats')
+        .doc(widget.announceData['activity_id'])
+        .get()
+        .then((doc) async {
+      if (!doc.exists) {
+        DocumentReference<Map<String, dynamic>> chat_ref = FirebaseFirestore
+            .instance
+            .doc('chats/' + widget.announceData['activity_id']);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user_id)
+            .collection('chats')
+            .doc(widget.announceData['activity_id'])
+            .set({
+          'chat_ref': chat_ref,
+        });
+      }
+    });
   }
 
   void refresh(isUpdateNumJoin) {
@@ -254,6 +291,34 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
                                                   )
                                                 ],
                                               )),
+                                          participants.any((element) =>
+                                                  (element['user_id'] ==
+                                                          user_id &&
+                                                      element['isAllowed']) ||
+                                                  element['user_id'] == user_id)
+                                              ? Container(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  margin:
+                                                      EdgeInsets.only(top: 3),
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.4,
+                                                  child: GestureDetector(
+                                                    onTap: (() {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ChatRoom()));
+                                                    }),
+                                                    child: Icon(
+                                                      Icons.chat_bubble_sharp,
+                                                      color: Colors.blue,
+                                                    ),
+                                                  ))
+                                              : Center()
                                         ]),
                                     participants.isEmpty
                                         ? Text('loading')
@@ -269,15 +334,15 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
                                                 activity_id:
                                                     widget.announceData[
                                                         'activity_id'],
-                                                user_id: temp_user_id,
+                                                user_id: user_id,
                                                 refreshParent: refresh,
                                               );
                                             }),
                                   ])))),
                   participants.isEmpty
                       ? Text('loading')
-                      : participants.any(
-                              (element) => element['user_id'] == temp_user_id)
+                      : participants
+                              .any((element) => element['user_id'] == user_id)
                           ? Text('')
                           : Container(
                               width: MediaQuery.of(context).size.width - 20,
@@ -307,7 +372,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
                                   ),
                                 ],
                               ),
-                            ),
+                            )
                 ],
               ),
             ),

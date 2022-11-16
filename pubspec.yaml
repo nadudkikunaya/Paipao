@@ -50,6 +50,7 @@ dependencies:
   firebase_auth: ^4.0.2
   firebase_storage: ^11.0.4
   flutter_launcher_icons: ^0.10.0
+  select_form_field: ^2.2.0
 
 #flutter pub run flutter_launcher_icons:main
 flutter_icons:
@@ -94,6 +95,7 @@ flutter:
     # - images/a_dot_burr.jpeg
     # - images/a_dot_ham.jpeg
     - messages.json
+    - province.json
     - logo_krit.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

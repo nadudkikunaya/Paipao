@@ -252,7 +252,7 @@ class _RegisterDetail3State extends State<RegisterDetail3> {
                                   'preference': {
                                     'isSmoking':
                                         enumToBool(widget.regData['isSmoking']),
-                                    'isDrinkin': enumToBool(
+                                    'isDrinking': enumToBool(
                                         widget.regData['isDrinking']),
                                     'isVegetarian': enumToBool(
                                         widget.regData['isVegetarian']),

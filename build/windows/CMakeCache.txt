@@ -200,6 +200,18 @@ runner_IS_TOP_LEVEL:STATIC=OFF
 //Value Computed by CMake
 runner_SOURCE_DIR:STATIC=E:/paipao/paipao/windows/runner
 
+//Value Computed by CMake
+url_launcher_windows_BINARY_DIR:STATIC=E:/paipao/paipao/build/windows/plugins/url_launcher_windows
+
+//Value Computed by CMake
+url_launcher_windows_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+url_launcher_windows_SOURCE_DIR:STATIC=E:/paipao/paipao/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows
+
+//Dependencies for the target
+url_launcher_windows_plugin_LIB_DEPENDS:STATIC=general;flutter_wrapper_plugin;
+
 
 ########################
 # INTERNAL cache entries
@@ -279,7 +291,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib

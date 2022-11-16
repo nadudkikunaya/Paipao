@@ -158,7 +158,7 @@ class _AnnouncementCardState extends State<AnnouncementCard> {
                           Text(
                             widget.announceData['conditions']['isGenderCon']
                                 ? widget.announceData['conditions']
-                                    ['genderConText']
+                                    ['genderContext']
                                 : 'ไม่ระบุ',
                             maxLines: 2,
                             softWrap: true,

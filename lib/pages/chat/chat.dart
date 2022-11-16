@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/chat/chatRoom.dart';
 import 'package:paipao/pages/widget/tag.dart';
@@ -10,39 +11,73 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
-  List<Map<String, dynamic>> chats = [
-    {
-      'isGroup': true,
-      'chatName': 'ห้องแขทตั้งแคมป์',
-      'chatImage':
-          'https://static.vecteezy.com/system/resources/previews/003/413/353/original/camp-element-icon-design-illustration-free-vector.jpg',
-      'chatNumJoin': 3,
-      'activityDate': '9/10/2022'
-    },
-    {
-      'isGroup': false,
-      'chatName': 'นายเอ แอปเปิ้ล',
-      'chatImage': 'https://randomuser.me/api/portraits/men/60.jpg',
-    },
-    {
-      'isGroup': false,
-      'chatName': 'นางซี แคทแมว',
-      'chatImage': 'https://randomuser.me/api/portraits/women/81.jpg',
-    },
-    {
-      'isGroup': true,
-      'chatName': 'ห้องแขทตกปลา',
-      'chatImage':
-          'https://cdn2.vectorstock.com/i/1000x1000/61/31/fishing-logo-design-hook-up-logo-vector-27336131.jpg',
-      'chatNumJoin': 5,
-      'activityDate': '9/10/2022'
-    },
-    {
-      'isGroup': false,
-      'chatName': 'นายบี เบิร์ดนก',
-      'chatImage': 'https://randomuser.me/api/portraits/men/23.jpg',
-    }
-  ];
+  final String user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1';
+
+  List<Map<String, dynamic>> chats = [];
+  // [
+  //   {
+  //     'isGroup': true,
+  //     'chatName': 'ห้องแขทตั้งแคมป์',
+  //     'chatImage':
+  //         'https://static.vecteezy.com/system/resources/previews/003/413/353/original/camp-element-icon-design-illustration-free-vector.jpg',
+  //     'chatNumJoin': 3,
+  //     'activityDate': '9/10/2022'
+  //   },
+  //   {
+  //     'isGroup': false,
+  //     'chatName': 'นายเอ แอปเปิ้ล',
+  //     'chatImage': 'https://randomuser.me/api/portraits/men/60.jpg',
+  //   },
+  //   {
+  //     'isGroup': false,
+  //     'chatName': 'นางซี แคทแมว',
+  //     'chatImage': 'https://randomuser.me/api/portraits/women/81.jpg',
+  //   },
+  //   {
+  //     'isGroup': true,
+  //     'chatName': 'ห้องแขทตกปลา',
+  //     'chatImage':
+  //         'https://cdn2.vectorstock.com/i/1000x1000/61/31/fishing-logo-design-hook-up-logo-vector-27336131.jpg',
+  //     'chatNumJoin': 5,
+  //     'activityDate': '9/10/2022'
+  //   },
+  //   {
+  //     'isGroup': false,
+  //     'chatName': 'นายบี เบิร์ดนก',
+  //     'chatImage': 'https://randomuser.me/api/portraits/men/23.jpg',
+  //   }
+  // ];
+
+  getInitData() async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_id)
+        .collection('chats')
+        .orderBy('latest_write', descending: true)
+        .get()
+        .then((collection) async {
+      for (var userChatDoc in collection.docs) {
+        Map<String, dynamic> userChatData = userChatDoc.data();
+        print(userChatData);
+        await userChatData['chat_ref']
+            .get()
+            .then((DocumentSnapshot<Map<String, dynamic>> doc) {
+          Map<String, dynamic>? data = doc.data();
+          setState(() {
+            chats.add(data!);
+          });
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getInitData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +131,8 @@ class _ChatState extends State<Chat> {
                                   children: [
                                     Text(data['chatName']),
                                     data['isGroup']
-                                        ? Text('${data['chatNumJoin']} คน')
+                                        ? Text(
+                                            '${data['chatNumJoin'].toString()} คน')
                                         : Center()
                                   ],
                                 ),

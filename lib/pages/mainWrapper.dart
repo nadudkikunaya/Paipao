@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:paipao/pages/auth/login.dart';
 import 'package:paipao/pages/chat/chat.dart';
+import 'package:select_form_field/select_form_field.dart';
 import './feed/feed.dart';
 import './explore/explore.dart';
 import './profile/profile.dart';
@@ -21,6 +24,13 @@ class _MainWrapperState extends State<MainWrapper> {
       userId: 'ทดสอบ',
     ),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -42,6 +42,32 @@ class _MemberTabState extends State<MemberTab> {
         widget.refreshParent(true);
       });
     });
+
+    addChatRoom();
+  }
+
+  void addChatRoom() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userData['user_id'])
+        .collection('chats')
+        .doc(widget.activity_id)
+        .get()
+        .then((doc) async {
+      if (!doc.exists) {
+        DocumentReference<Map<String, dynamic>> chat_ref =
+            FirebaseFirestore.instance.doc('chats/' + widget.activity_id);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.userData['user_id'])
+            .collection('chats')
+            .doc(widget.activity_id)
+            .set({
+          'chat_ref': chat_ref,
+          'latest_write': Timestamp.fromDate(DateTime.now())
+        });
+      }
+    });
   }
 
   @override

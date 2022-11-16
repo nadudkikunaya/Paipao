@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/login.dart';
 import 'package:paipao/pages/auth/registerDetail2.dart';
 import 'package:paipao/pages/auth/registerDetail3.dart';
+import 'package:paipao/pages/explore/createAnnouncement.dart';
 import 'package:paipao/pages/factory.dart';
 import 'mainWrapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -53,9 +54,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const RegisterDetail2(
-                                regData: {},
-                              )),
+                          builder: (context) => const CreateAnnouncement()),
                     );
                   },
                   style:

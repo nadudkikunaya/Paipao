@@ -176,7 +176,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="E:\paipao\paipao\build\windows\runner\ALL_BUILD.vcxproj">
+    <ProjectReference Include="E:\paipao\paipao\build\windows\plugins\url_launcher_windows\ALL_BUILD.vcxproj">
       <Project>{D351BD44-1B9A-3075-9846-1022F4E2496F}</Project>
       <Name>ALL_BUILD</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

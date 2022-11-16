@@ -458,6 +458,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "select_form_field",
+      "rootUri": "file:///C:/FlutterSDK/flutter_windows_3.3.2-stable/flutter/.pub-cache/hosted/pub.dartlang.org/select_form_field-2.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///C:/FlutterSDK/flutter_windows_3.3.2-stable/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -602,7 +608,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-11T06:37:37.479644Z",
+  "generated": "2022-11-11T09:39:05.595643Z",
   "generator": "pub",
   "generatorVersion": "2.18.1"
 }

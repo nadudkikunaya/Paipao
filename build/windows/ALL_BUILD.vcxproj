@@ -149,6 +149,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{FE07D7FF-BB20-3EFA-B616-617FF7BFF613}</Project>
       <Name>paipao</Name>
     </ProjectReference>
+    <ProjectReference Include="E:\paipao\paipao\build\windows\plugins\url_launcher_windows\url_launcher_windows_plugin.vcxproj">
+      <Project>{EC196AA2-0A6E-3E2A-9D50-0942CAA340E7}</Project>
+      <Name>url_launcher_windows_plugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

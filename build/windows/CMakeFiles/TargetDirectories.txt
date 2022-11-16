@@ -8,3 +8,6 @@ E:/paipao/paipao/build/windows/flutter/CMakeFiles/INSTALL.dir
 E:/paipao/paipao/build/windows/runner/CMakeFiles/paipao.dir
 E:/paipao/paipao/build/windows/runner/CMakeFiles/INSTALL.dir
 E:/paipao/paipao/build/windows/runner/CMakeFiles/ALL_BUILD.dir
+E:/paipao/paipao/build/windows/plugins/url_launcher_windows/CMakeFiles/url_launcher_windows_plugin.dir
+E:/paipao/paipao/build/windows/plugins/url_launcher_windows/CMakeFiles/INSTALL.dir
+E:/paipao/paipao/build/windows/plugins/url_launcher_windows/CMakeFiles/ALL_BUILD.dir
