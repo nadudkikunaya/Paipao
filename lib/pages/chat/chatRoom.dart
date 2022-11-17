@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -17,7 +18,10 @@ import 'package:open_filex/open_filex.dart';
 enum Status { delivered, error, seen, sending, sent }
 
 class ChatRoom extends StatefulWidget {
-  const ChatRoom({super.key});
+  const ChatRoom(
+      {super.key, required this.chat_id, required this.isMatchmaking});
+  final String chat_id;
+  final bool isMatchmaking;
 
   @override
   State<ChatRoom> createState() => _ChatRoomState();
@@ -26,8 +30,9 @@ class ChatRoom extends StatefulWidget {
 class _ChatRoomState extends State<ChatRoom> {
   List<types.Message> _messages = [];
   Map<String, Map<String, dynamic>> chatParticipants = {};
-  final chat_id = 'wxxf9Xsu8iSr3dK3xXED';
-  final String user_id = 'KbtEqJMBd1vOEu3cppZ6';
+  String? chat_id;
+  final String user_id = FirebaseAuth.instance.currentUser!.uid;
+  //final String user_id = 'KbtEqJMBd1vOEu3cppZ6';
   // ignore: unnecessary_string_interpolations
   //final _user = types.User(id: 'f0J6UlbRBagsL42chvzWGxob6ss2');
   types.User _user = types.User(id: '');
@@ -37,6 +42,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     super.initState();
     _user = types.User(id: user_id);
+    chat_id = widget.chat_id;
     _loadChatUser();
   }
 
@@ -279,7 +285,7 @@ class _ChatRoomState extends State<ChatRoom> {
     _addMessage(textMessage);
   }
 
-  void _loadChatUser() async {
+  void _loadAnnouncementUser() async {
     final res = await FirebaseFirestore.instance
         .collection('announcement')
         .doc(chat_id)
@@ -302,10 +308,81 @@ class _ChatRoomState extends State<ChatRoom> {
           setState(() {
             chatParticipants = chatParticipants;
           });
-          print(chatParticipants);
         });
       }
     }
+    chatParticipants.forEach((x, y) {
+      print(y.toString());
+    });
+    print('get each user finish');
+    setState(() {
+      loading = false;
+    });
+  }
+
+  void _loadMatchMakingUser() async {
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chat_id)
+        .get()
+        .then((doc) async {
+      Map<String, dynamic>? data = doc.data();
+      List<String> participants = (data?['participants'] as List)
+          .map((item) => item as String)
+          .toList();
+
+      for (var userId in participants) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .get()
+            .then((DocumentSnapshot<Map<String, dynamic>> userDoc) {
+          Map<String, dynamic>? userData = userDoc.data();
+          chatParticipants[userDoc.id] = {
+            'firstName': userData?['name'],
+            'imageUrl': userData?['profile'],
+            'id': userDoc.id
+          };
+          setState(() {
+            chatParticipants = chatParticipants;
+          });
+        });
+      }
+    });
+  }
+
+  void _loadChatUser() async {
+    if (!widget.isMatchmaking)
+      _loadAnnouncementUser();
+    else
+      _loadMatchMakingUser();
+
+    // final res = await FirebaseFirestore.instance
+    //     .collection('announcement')
+    //     .doc(chat_id)
+    //     .collection('participants')
+    //     .get();
+
+    // print('get each user');
+    // for (var docId in res.docs) {
+    //   Map<String, dynamic> data = docId.data();
+    //   if (data['isAllowed']) {
+    //     await data['user_ref']
+    //         .get()
+    //         .then((DocumentSnapshot<Map<String, dynamic>> userDoc) async {
+    //       Map<String, dynamic>? userData = userDoc.data();
+    //       chatParticipants[userDoc.id] = {
+    //         'firstName': userData?['name'],
+    //         'imageUrl': userData?['profile'],
+    //         'id': userDoc.id
+    //       };
+    //       setState(() {
+    //         chatParticipants = chatParticipants;
+    //       });
+    //     });
+    //   }
+    // }
+
     print('get each user finish');
     setState(() {
       loading = false;

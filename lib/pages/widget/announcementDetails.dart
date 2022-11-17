@@ -26,9 +26,9 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
   //final String user_id = 'KbtEqJMBd1vOEu3cppZ6'; //A
   //final String user_id = 'w7oYKajZtmNwOOrujJYm'; //B
   //final String user_id = 'lze0oAskkL1Z7r24a0R7'; //C
-  final String user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1'; //test01
+  //final String user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1'; //test01
   //final String user_id = 'f0J6UlbRBagsL42chvzWGxob6ss2'; //test02
-  //final String user_id = FirebaseAuth.instance.currentUser!.uid;
+  final String user_id = FirebaseAuth.instance.currentUser!.uid;
 
   getData() async {
     List<Map<String, dynamic>> listData = [];
@@ -61,7 +61,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
     });
   }
 
-  void joinActivity() {
+  void joinActivity() async {
     //print('activity_id :' + widget.announceData['activity_id']);
     if (participants.length >= widget.announceData['capacity']) {
       showDialog(
@@ -77,7 +77,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
         FirebaseFirestore.instance.doc('announcement/' + activity_id);
 
     print('add announcement ref in user');
-    FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('users')
         .doc(user_id)
         .collection('announcement')
@@ -92,7 +92,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
     if (widget.announceData['isTypeSelect'] == false &&
         widget.announceData['capacity'] > widget.announceData['numJoin']) {
       print('update numJoin');
-      FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('announcement')
           .doc(activity_id)
           .update({
@@ -119,7 +119,7 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
     refresh(isUpdateNumJoin);
   }
 
-  void addChatRoom() {
+  void addChatRoom() async {
     FirebaseFirestore.instance
         .collection('users')
         .doc(user_id)
@@ -138,6 +138,15 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
             .doc(widget.announceData['activity_id'])
             .set({
           'chat_ref': chat_ref,
+          'latest_write': Timestamp.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch)
+        });
+
+        await FirebaseFirestore.instance
+            .collection('chats')
+            .doc(widget.announceData['activity_id'])
+            .update({
+          'chatNumJoin': FieldValue.increment(1),
         });
       }
     });
@@ -310,8 +319,14 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
                                                       Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ChatRoom()));
+                                                              builder:
+                                                                  (context) =>
+                                                                      ChatRoom(
+                                                                        chat_id:
+                                                                            widget.announceData['activity_id'],
+                                                                        isMatchmaking:
+                                                                            false,
+                                                                      )));
                                                     }),
                                                     child: Icon(
                                                       Icons.chat_bubble_sharp,

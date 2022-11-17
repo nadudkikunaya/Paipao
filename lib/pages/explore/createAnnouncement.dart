@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:paipao/pages/explore/filterAlertDialog.dart';
@@ -23,7 +24,7 @@ class CreateAnnouncement extends StatefulWidget {
 }
 
 class _CreateAnnouncementState extends State<CreateAnnouncement> {
-  String user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1';
+  final String user_id = FirebaseAuth.instance.currentUser!.uid;
   bool isDateSelected = false;
   late DateTime startDate; // instance of DateTime
   String startDateInString = 'วันที่เริ่มกิจกรรม';
@@ -796,6 +797,7 @@ class _CreateAnnouncementState extends State<CreateAnnouncement> {
                                   'chatName': activityNameController.text,
                                   'chatNumJoin': 1,
                                   'isGroup': true,
+                                  'isMatchmaking': false,
                                 }).then((chat) async {
                                   print('create chat group in user');
                                   await FirebaseFirestore.instance

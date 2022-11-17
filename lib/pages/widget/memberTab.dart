@@ -46,7 +46,7 @@ class _MemberTabState extends State<MemberTab> {
     addChatRoom();
   }
 
-  void addChatRoom() {
+  void addChatRoom() async {
     FirebaseFirestore.instance
         .collection('users')
         .doc(widget.userData['user_id'])
@@ -64,7 +64,15 @@ class _MemberTabState extends State<MemberTab> {
             .doc(widget.activity_id)
             .set({
           'chat_ref': chat_ref,
-          'latest_write': Timestamp.fromDate(DateTime.now())
+          'latest_write': Timestamp.fromMillisecondsSinceEpoch(
+              DateTime.now().millisecondsSinceEpoch)
+        });
+
+        await FirebaseFirestore.instance
+            .collection('chats')
+            .doc(widget.activity_id)
+            .update({
+          'chatNumJoin': FieldValue.increment(1),
         });
       }
     });

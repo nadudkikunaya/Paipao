@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:paipao/pages/explore/createAnnouncement.dart';
 import 'package:paipao/pages/explore/filterAlertDialog.dart';
+import 'package:paipao/pages/explore/matchMakingFilter.dart';
 import 'package:select_form_field/select_form_field.dart';
 import '../widget/announcementCard.dart';
 
@@ -22,7 +23,8 @@ class _ExploreState extends State<Explore> {
   final _filterController = TextEditingController();
   List<Map<String, dynamic>> announcedData = [];
   //final String user_id = FirebaseAuth.instance.currentUser!.uid;
-  final String user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1'; //test01
+  //final String user_id = 'pvtKqLVvqlb4LblhHdu3FvghAxz1'; //test01
+  final String user_id = FirebaseAuth.instance.currentUser!.uid;
 
   List<String> provinceList = [];
   List<String> activitiesList = [];
@@ -598,7 +600,13 @@ class _ExploreState extends State<Explore> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (() {}),
+        onPressed: (() {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return MatchMakingFilter();
+              });
+        }),
         child: Icon(
           Icons.join_inner,
           color: Colors.black,
