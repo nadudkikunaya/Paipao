@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 #Fri Nov 18 14:29:48 ICT 2022
 path.4=15/classes.dex
 path.3=13/classes.dex
 path.2=12/classes.dex
+=======
+#Fri Nov 11 17:04:35 ICT 2022
+path.4=3/classes.dex
+path.3=1/classes.dex
+path.2=13/classes.dex
+>>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a
 renamed.9=classes10.dex
 path.1=11/classes.dex
 renamed.8=classes9.dex
@@ -14,11 +21,19 @@ path.5=1/classes.dex
 renamed.11=classes12.dex
 renamed.10=classes11.dex
 path.0=classes.dex
+<<<<<<< HEAD
 base.4=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\15\\classes.dex
 base.3=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\13\\classes.dex
 base.2=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\12\\classes.dex
 base.1=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\11\\classes.dex
 base.0=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+=======
+base.4=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\3\\classes.dex
+base.3=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\1\\classes.dex
+base.2=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\13\\classes.dex
+base.1=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\11\\classes.dex
+base.0=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
+>>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a
 renamed.3=classes4.dex
 path.12=1/classes.dex
 renamed.2=classes3.dex
@@ -26,6 +41,7 @@ path.13=classes2.dex
 renamed.1=classes2.dex
 path.10=7/classes.dex
 renamed.0=classes.dex
+<<<<<<< HEAD
 base.9=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\5\\classes.dex
 path.9=5/classes.dex
 path.11=0/classes.dex
@@ -41,3 +57,16 @@ base.13=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeExtDexD
 base.12=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
 base.11=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=E\:\\paipao\\paipao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\7\\classes.dex
+=======
+base.9=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\1\\classes.dex
+path.9=1/classes.dex
+renamed.7=classes8.dex
+base.8=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
+renamed.6=classes7.dex
+base.7=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\7\\classes.dex
+renamed.5=classes6.dex
+base.6=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\5\\classes.dex
+renamed.4=classes5.dex
+base.5=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeLibDexDebug\\4\\classes.dex
+base.10=D\:\\Project SE\\Pai pao\\build\\app\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex
+>>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a

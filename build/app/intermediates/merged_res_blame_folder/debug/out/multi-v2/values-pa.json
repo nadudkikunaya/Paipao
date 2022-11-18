@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\paipao\\paipao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pa\\values-pa.xml",
+            "outputFile": "D:\\Project SE\\Pai pao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pa\\values-pa.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\6b0daa5fb4c2eb7e8b55778df9b972f6\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-pa\\values.xml",
+                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\6b0daa5fb4c2eb7e8b55778df9b972f6\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-pa\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

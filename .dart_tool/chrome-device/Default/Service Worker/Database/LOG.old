@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 2022/11/18-16:14:31.871 33b4 Reusing MANIFEST C:\Users\INatZ\AppData\Local\Temp\flutter_tools.7eb46e15\flutter_tools_chrome_device.9dc52d1e\Default\Service Worker\Database/MANIFEST-000001
 2022/11/18-16:14:31.872 33b4 Recovering log #3
 2022/11/18-16:14:31.873 33b4 Reusing old log C:\Users\INatZ\AppData\Local\Temp\flutter_tools.7eb46e15\flutter_tools_chrome_device.9dc52d1e\Default\Service Worker\Database/000003.log 
+=======
+2022/11/17-18:21:17.795 58b4 Reusing MANIFEST C:\Users\mark\AppData\Local\Temp\flutter_tools.becf3893\flutter_tools_chrome_device.3a9598c8\Default\Service Worker\Database/MANIFEST-000001
+2022/11/17-18:21:17.795 58b4 Recovering log #3
+2022/11/17-18:21:17.796 58b4 Reusing old log C:\Users\mark\AppData\Local\Temp\flutter_tools.becf3893\flutter_tools_chrome_device.3a9598c8\Default\Service Worker\Database/000003.log 
+>>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a

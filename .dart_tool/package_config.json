@@ -332,6 +332,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "like_button",
+      "rootUri": "file:///C:/FlutterSDK/flutter_windows_3.3.2-stable/flutter/.pub-cache/hosted/pub.dartlang.org/like_button-2.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "linkify",
       "rootUri": "file:///C:/FlutterSDK/flutter_windows_3.3.2-stable/flutter/.pub-cache/hosted/pub.dartlang.org/linkify-4.1.0",
       "packageUri": "lib/",

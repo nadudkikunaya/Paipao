@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\paipao\\paipao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml\\values-ml.xml",
+            "outputFile": "D:\\Project SE\\Pai pao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-ml\\values-ml.xml",
             "map": [
                 {
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\05304738454a7c6fee076a188df4c25d\\transformed\\browser-1.4.0\\res\\values-ml\\values-ml.xml",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\6b0daa5fb4c2eb7e8b55778df9b972f6\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-ml\\values.xml",
+                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\6b0daa5fb4c2eb7e8b55778df9b972f6\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-ml\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -55,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\d363e3b5616f580c766e3e2b3c05f27d\\transformed\\core-1.8.0\\res\\values-ml\\values-ml.xml",
+                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\d363e3b5616f580c766e3e2b3c05f27d\\transformed\\core-1.8.0\\res\\values-ml\\values-ml.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
