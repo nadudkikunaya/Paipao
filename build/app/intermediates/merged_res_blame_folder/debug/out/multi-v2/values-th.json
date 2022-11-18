@@ -4,7 +4,6 @@
             "outputFile": "D:\\Project SE\\Pai pao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-th\\values-th.xml",
             "map": [
                 {
-<<<<<<< HEAD
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\05304738454a7c6fee076a188df4c25d\\transformed\\browser-1.4.0\\res\\values-th\\values-th.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -23,9 +22,6 @@
                 },
                 {
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\3ff720be07735976176520d1c05fb799\\transformed\\jetified-play-services-base-18.0.1\\res\\values-th\\values.xml",
-=======
-                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\3ff720be07735976176520d1c05fb799\\transformed\\jetified-play-services-base-18.0.1\\res\\values-th\\values.xml",
->>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
