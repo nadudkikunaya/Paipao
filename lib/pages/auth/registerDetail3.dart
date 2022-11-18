@@ -378,7 +378,8 @@ class _RegisterDetail3State extends State<RegisterDetail3> {
     final fileProfile = File(_profileFile!.path);
     final filePID = File(_pidFile!.path);
     final storageRef = FirebaseStorage.instance.ref();
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}_$uid';
+    final fileName = uid;
+    //final fileName = '${DateTime.now().millisecondsSinceEpoch}_$uid';
 
     final uploadTaskProfile =
         await storageRef.child('profile/$fileName.jpg').putFile(fileProfile);

@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/editProfile/editProfile.dart';
 import 'package:paipao/pages/newPost/newPost.dart';
-import 'dart:ui';
 import 'Information.dart';
 import 'Post.dart';
 import 'StatWidget.dart';
@@ -26,6 +25,7 @@ class _ProfileState extends State<Profile> {
   bool? isVegetarian;
   int age = 0;
   String avatarURL = "";
+  Map<String, int>? exp = {};
   List<String> imgPost = [
     "https://cdn.pixabay.com/photo/2017/01/20/00/30/maldives-1993704_960_720.jpg",
     "https://cdn.pixabay.com/photo/2018/10/19/12/14/train-3758523_960_720.jpg",
@@ -49,6 +49,39 @@ class _ProfileState extends State<Profile> {
       "caption": "เย้ๆๆๆ ถึงโคราชแล้ว"
     }
   ];
+
+  String getRank(int value) {
+    if (value <= 5) {
+      return 'มือใหม่';
+    } else if (value <= 20) {
+      return 'สมัครเล่น';
+    } else if (value <= 50) {
+      return 'มือฉมัง';
+    } else if (value <= 99) {
+      return 'โคตรเซียน';
+    } else if (value >= 100) {
+      return 'ตำนาน';
+    }
+
+    return 'ไม่ระบุ';
+  }
+
+  getRandomColor(int value) {
+    if (value <= 5) {
+      return Colors.lightBlueAccent;
+    } else if (value <= 20) {
+      return Colors.lightGreenAccent;
+    } else if (value <= 50) {
+      return Colors.limeAccent;
+    } else if (value <= 99) {
+      return Color.fromARGB(255, 255, 102, 153);
+    } else if (value >= 100) {
+      return Colors.redAccent;
+    }
+
+    return Colors.grey.shade300;
+  }
+
   String genderENtoTH(gender) {
     if (gender == "male")
       return "ชาย";
@@ -74,6 +107,14 @@ class _ProfileState extends State<Profile> {
         isVegetarian = user_data?["preference"]["isVegetarian"];
         isDrinking = user_data?["preference"]["isDrinking"];
         isSmoking = user_data?["preference"]["isSmoking"];
+        Map<String, dynamic> temp = user_data?['exp'];
+        temp.forEach((key, value) {
+          print('$key $value');
+          exp?[key] = (value as int);
+        });
+
+        print(exp);
+
         // ignore: division_optimization
         age = (DateTime.now()
                     .difference((user_data?['birthdate'] as Timestamp).toDate())
@@ -166,21 +207,29 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
-                    Wrap(
-                      spacing: 5,
-                      children: [
-                        Status("นักแคมป์", "มือใหม่",
-                            Color.fromARGB(255, 38, 212, 255)),
-                        Status("นักสู้", "มือฉมัง",
-                            Color.fromARGB(255, 157, 255, 45)),
-                        Status("นักต้มตุ๋น", "มือฉมัง",
-                            Color.fromARGB(255, 255, 57, 146)),
-                        Status("นักรบไฟนอล", "มือฉมัง",
-                            Color.fromARGB(255, 231, 255, 53)),
-                        Status("นักกินจุ", "มือฉมัง",
-                            Color.fromARGB(255, 175, 84, 255)),
-                      ],
-                    ),
+                    exp!.keys.isEmpty
+                        ? Center()
+                        : Wrap(
+                            spacing: exp!.length.toDouble(),
+                            children: exp!.keys
+                                .map((key) => Status(
+                                    key,
+                                    getRank((exp![key] as int)),
+                                    getRandomColor((exp![key] as int))))
+                                .toList()
+                            // [
+                            //   Status("นักแคมป์", "มือใหม่",
+                            //       Color.fromARGB(255, 38, 212, 255)),
+                            //   Status("นักสู้", "มือฉมัง",
+                            //       Color.fromARGB(255, 157, 255, 45)),
+                            //   Status("นักต้มตุ๋น", "มือฉมัง",
+                            //       Color.fromARGB(255, 255, 57, 146)),
+                            //   Status("นักรบไฟนอล", "มือฉมัง",
+                            //       Color.fromARGB(255, 231, 255, 53)),
+                            //   Status("นักกินจุ", "มือฉมัง",
+                            //       Color.fromARGB(255, 175, 84, 255)),
+                            // ],
+                            ),
 
                     Container(
                       child: Padding(

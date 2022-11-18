@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:paipao/pages/editProfile/changeAct.dart';
 import 'dart:ui';
 import 'myCheckBox.dart';
 
-import 'package:paipao/pages/editProfile/changeAct.dart';
+import 'package:paipao/pages/editProfile/changeAct_old.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -19,14 +22,11 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   TextEditingController nameController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  TextEditingController avatarURLController = TextEditingController();
-  TextEditingController isSmokingController = TextEditingController();
-  TextEditingController isDrinkingController = TextEditingController();
-  TextEditingController isVegetarianController = TextEditingController();
+
   PickedFile? _profileFile;
   final ImagePicker _picker = ImagePicker();
 
-  String user_id = "pvtKqLVvqlb4LblhHdu3FvghAxz1";
+  String user_id = FirebaseAuth.instance.currentUser!.uid;
   String name = '';
   String gender = "";
   String desc = "";
@@ -35,14 +35,7 @@ class _EditProfileState extends State<EditProfile> {
   bool? isVegetarian;
   int age = 0;
   String avatarURL = "";
-  final CollectionReference _users =
-      FirebaseFirestore.instance.collection('users');
-
-  List<MyCheckBox> myBox = [
-    MyCheckBox("สูบบุหรี่", false),
-    MyCheckBox("ดื่มแอลกอฮอล์", false),
-    MyCheckBox("เป็นมังสวิรัติ", false)
-  ];
+  int detailMaxLines = 10;
 
   List<Map<String, dynamic>> condition = [];
 
@@ -56,18 +49,44 @@ class _EditProfileState extends State<EditProfile> {
       print(user_data);
       setState(() {
         name = user_data?["name"];
-        nameController.text = name;
+
         desc = user_data?["description"];
         avatarURL = user_data?["profile"];
         isVegetarian = user_data?["preference"]["isVegetarian"];
         isDrinking = user_data?["preference"]["isDrinking"];
         isSmoking = user_data?["preference"]["isSmoking"];
-        condition = [
-          {'name': 'สูบบุหรี่', 'status': isSmoking},
-          {'name': 'ดื่มแอลกอฮอล์', 'status': isDrinking},
-          {'name': 'เป็นมังสวิรัติ', 'status': isVegetarian},
-        ];
+        Map<String, dynamic> preference = user_data?['preference'];
+        preference.forEach((key, value) {
+          condition.add({
+            'name': key,
+            'status': value,
+          });
+        });
+
+        descriptionController.text = desc;
+        nameController.text = name;
         // ignore: division_optimization
+      });
+    });
+  }
+
+  String preferenceToThai(String eng) {
+    if (eng == 'isVegetarian') {
+      return 'เป็นมังสวิรัติ';
+    } else if (eng == 'isDrinking') {
+      return 'ดื่มแอลกอฮอล์';
+    } else if (eng == 'isSmoking') {
+      return 'สูบบุหรี่';
+    }
+    return 'เกิดข้อผิดพลาด';
+  }
+
+  void updateCondition(String key, bool value) {
+    setState(() {
+      condition.forEach((element) {
+        if (element['name'] == key) {
+          element['status'] = value;
+        }
       });
     });
   }
@@ -166,10 +185,16 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: TextField(
-                      maxLines: null,
+                    child: TextFormField(
+                      maxLines: detailMaxLines,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(), labelText: ''),
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          isCollapsed: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          labelText: 'รายละเอียด'),
                       textInputAction: TextInputAction.done,
                       controller: descriptionController,
                     ),
@@ -181,10 +206,23 @@ class _EditProfileState extends State<EditProfile> {
                     shrinkWrap: true,
                     itemCount: condition.length,
                     itemBuilder: (context, index) {
-                      return CreateCheckBox(
-                        MyCheckBox(condition[index]['name'],
-                            condition[index]['status']),
-                      );
+                      MyCheckBox theBox = MyCheckBox(
+                          preferenceToThai(condition[index]['name']),
+                          condition[index]['status']);
+                      return CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          title: Text(
+                            theBox.name.toString(),
+                          ),
+                          value: condition[index]['status'],
+                          onChanged: (value) {
+                            updateCondition(condition[index]['name'],
+                                !condition[index]['status']);
+                          });
+                      // return CreateCheckBox(
+                      //   MyCheckBox(condition[index]['name'],
+                      //       condition[index]['status']),
+                      // );
                     },
                   ),
                   // CreateCheckBox(myBox[0]),
@@ -202,7 +240,8 @@ class _EditProfileState extends State<EditProfile> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ChangeAct()),
+                        MaterialPageRoute(
+                            builder: (context) => ChangeActivity()),
                       );
                     },
                   ),
@@ -211,7 +250,10 @@ class _EditProfileState extends State<EditProfile> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
-                          onPressed: () {}, child: const Text("บันทึก")),
+                          onPressed: () {
+                            _updateProfile();
+                          },
+                          child: const Text("บันทึก")),
                     ),
                   )
                 ]),
@@ -220,30 +262,53 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Future<void> _update([DocumentSnapshot? user_data]) async {
-    if (user_data != null) {
-      avatarURLController.text = user_data['profile'];
-      nameController.text = user_data['name'];
-      descriptionController.text = user_data['description'];
-      isSmokingController.text = user_data['preference']['isSmoking'];
-      isDrinkingController.text = user_data['preference']['isDrinking'];
-      isVegetarianController.text = user_data['preference']['isVegetarian'];
+  void _updateProfile() async {
+    //final String avatarURL = avatarURLController.text;
+
+    Map<String, dynamic> _obj = {
+      'name': nameController.text,
+      'description': descriptionController.text,
+      'preference': {},
+    };
+
+    for (Map<String, dynamic> element in condition) {
+      _obj['preference'][element['name']] = element['status'];
     }
 
-    final String avatarURL = avatarURLController.text;
-    final String name = nameController.text;
-    final String desc = descriptionController.text;
-    final bool isSmoking = isSmokingController.text as bool;
-    final bool isDrinking = isDrinkingController.text as bool;
-    final bool isVegetarian = isVegetarianController.text as bool;
+    print(_obj);
+    uploadFile();
 
-    await _users.doc(user_data!.id).update({
-      'profile': avatarURL,
-      'name': name,
-      'description': desc,
-      'isSmoking': isSmoking,
-      'isDrinking': isDrinking,
-      'isVegetarian': isVegetarian
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_id)
+        .update(_obj)
+        .then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('อัปเดตโปรไฟล์เสร็จเรียบร้อย')),
+      );
+    });
+  }
+
+  void uploadFile() async {
+    if (_profileFile == null) return;
+    final fileProfile = File(_profileFile!.path);
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final fileName = user_id;
+    //final fileName = '${DateTime.now().millisecondsSinceEpoch}_$user_id';
+
+    final uploadTaskProfile =
+        await storageRef.child('profile/$fileName.jpg').putFile(fileProfile);
+
+    print('done');
+    final profileURL = storageRef
+        .child('profile/$fileName.jpg')
+        .getDownloadURL()
+        .then((link) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .update({'profile': link.toString()});
     });
   }
 
@@ -307,6 +372,7 @@ class _EditProfileState extends State<EditProfile> {
         ),
         value: theBox.isSelected,
         onChanged: (value) {
+          print('test $value');
           setState(
             () => theBox.isSelected = value!,
           );

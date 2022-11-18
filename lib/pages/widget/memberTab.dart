@@ -74,8 +74,38 @@ class _MemberTabState extends State<MemberTab> {
             .update({
           'chatNumJoin': FieldValue.increment(1),
         });
+        updateUserExp();
       }
     });
+  }
+
+  void updateUserExp() async {
+    DocumentSnapshot<Map<String, dynamic>> userExpData = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(widget.userData['user_id'])
+        .get();
+    Map<String, dynamic>? exp = userExpData.data()?['exp'];
+
+    // ignore: prefer_conditional_assignment
+    if (exp == null) {
+      exp = {};
+    }
+
+    if (exp!.containsKey(widget.activity_id)) {
+      exp[widget.activity_id] = (exp[widget.activity_id]! as int) + 1;
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userData['user_id'])
+          .update({'exp': exp});
+    } else {
+      exp[widget.activity_id] = 1;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userData['user_id'])
+          .update({'exp': exp});
+    }
   }
 
   @override

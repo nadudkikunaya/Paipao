@@ -4,6 +4,7 @@ import 'package:paipao/pages/auth/login.dart';
 import 'package:paipao/pages/auth/registerDetail2.dart';
 import 'package:paipao/pages/auth/registerDetail3.dart';
 import 'package:paipao/pages/chat/chatRoom.dart';
+import 'package:paipao/pages/editProfile/editProfile.dart';
 import 'package:paipao/pages/explore/createAnnouncement.dart';
 import 'package:paipao/pages/explore/matchMakingFilter.dart';
 import 'package:paipao/pages/explore/waitingRoom.dart';
@@ -201,18 +202,19 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                       ElevatedButton.styleFrom(backgroundColor: Colors.amber),
                   child: Text('Login'),
                 )),
-                // Expanded(
-                //     child: ElevatedButton(
-                //   onPressed: () {
-                //     Navigator.pushReplacement(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => const ChatRoom()),
-                //     );
-                //   },
-                //   style:
-                //       ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                //   child: Text('SkipPage'),
-                // )),
+                Expanded(
+                    child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const EditProfile()),
+                    );
+                  },
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                  child: Text('SkipPage'),
+                )),
                 Expanded(
                     child: ElevatedButton(
                   onPressed: () {
