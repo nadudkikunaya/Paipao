@@ -36,6 +36,7 @@ class _WaitingRoomState extends State<WaitingRoom>
     Stream<QuerySnapshot<Map<String, dynamic>>> snapshots = FirebaseFirestore
         .instance
         .collection('matchmaking')
+        .where('activity', isEqualTo: widget.activity)
         .where('createdAt', isGreaterThan: threeMinutesAgo)
         .orderBy('createdAt')
         .snapshots();
@@ -46,11 +47,16 @@ class _WaitingRoomState extends State<WaitingRoom>
         //durationValue
       }
 
+      if (event.docs.isEmpty) {
+        setState(() {
+          isLoading = true;
+        });
+      }
       //someone has join
       if (event.docChanges.isNotEmpty &&
-          selectedRoom == event.docChanges.last.doc.id) {
-        if (!event.docChanges.last.doc.get('isLocked'))
-          changeProgressState(5.0.toInt());
+          selectedRoom == event.docChanges.last.doc.id &&
+          isProgressing) {
+        if (!event.docChanges.last.doc.get('isLocked')) changeProgressState(30);
       }
 
       //before loading stream
@@ -89,7 +95,7 @@ class _WaitingRoomState extends State<WaitingRoom>
       setState(() {
         selectedRoom = value.id;
         //set duration
-        durationValue = 60 * 3;
+        durationValue = 180;
       });
       print(value.id);
       if (isNextActivity) {
@@ -110,7 +116,7 @@ class _WaitingRoomState extends State<WaitingRoom>
       durationValue = value;
       controller.value = 0;
       controller.duration = Duration(seconds: value);
-      if (value == 5.0.toInt()) {
+      if (value == 30) {
         progressState = 'รอสมาชิกเพิ่มเติม';
       } else if (value == 180) {
         progressState = 'กำลังจับกลุ่ม';
@@ -137,7 +143,7 @@ class _WaitingRoomState extends State<WaitingRoom>
             : roomData?['minNumJoin'],
       }).then(
         (value) {
-          changeProgressState(5.0.toInt());
+          changeProgressState(30);
         },
       );
     } else {
@@ -250,7 +256,7 @@ class _WaitingRoomState extends State<WaitingRoom>
       upperBound: 1,
       duration: Duration(seconds: durationValue),
     )..addListener(() {
-        if (controller.isCompleted && durationValue == 5.0.toInt()) {
+        if (controller.isCompleted && durationValue == 30) {
           createChat();
           isProgressing = false;
           setState(() {
@@ -262,6 +268,7 @@ class _WaitingRoomState extends State<WaitingRoom>
           nextActivity();
         } else if (controller.isCompleted && durationValue == 180) {
           print('delete');
+          subscription.cancel();
           deleteEmptyWaitingRoom();
           Navigator.pop(context);
         }
@@ -277,7 +284,7 @@ class _WaitingRoomState extends State<WaitingRoom>
   void dispose() {
     controller.dispose();
     subscription.cancel();
-    if (selectedRoom != '' && durationValue == 5.0.toInt()) {
+    if (selectedRoom != '' && durationValue == 30) {
       leaveActivity();
     } else if (selectedRoom != '' && durationValue == 180) {
       deleteEmptyWaitingRoom();
@@ -324,68 +331,76 @@ class _WaitingRoomState extends State<WaitingRoom>
                           ),
                         ],
                       )
-                    : IconButton(
-                        onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatRoom(
-                                      chat_id: waiting_room[roomNumber].id,
-                                      isMatchmaking: true,
-                                    )),
-                          );
-                        },
-                        icon: Icon(Icons.chat_bubble_outline)),
+                    : Center(
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ChatRoom(
+                                          chat_id: waiting_room[roomNumber].id,
+                                          isMatchmaking: true,
+                                        )),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.chat_bubble_outline,
+                              size: 30,
+                            )),
+                      ),
                 waiting_room.isEmpty
                     ? Center()
-                    : Center(
-                        child: Column(
-                          children: [
-                            Text('รหัสห้อง ${waiting_room[roomNumber].id}'),
-                            Text('ผูเข้าร่วม ${roomData?['numJoin']}'),
-                            //empty = ยังไม่เลือกห้องให้ขึ้นให้เลือกก่อน
-                            selectedRoom.isNotEmpty
-                                ? Center()
-                                : Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Expanded(
-                                          child: Container(
-                                        margin: EdgeInsets.all(5),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            joinActivity();
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.green),
-                                          child: Text('เข้าร่วมกิจกรรมนี้'),
-                                        ),
-                                      )),
-                                      Expanded(
-                                          child: Container(
-                                        margin: EdgeInsets.all(5),
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            nextActivity();
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red),
-                                          child: Text('ดูกิจกรรมต่อไป'),
-                                        ),
-                                      ))
-                                    ],
-                                  )
-                          ],
-                        ),
-                      ),
+                    : controller.isCompleted
+                        ? Center()
+                        : Center(
+                            child: Column(
+                              children: [
+                                Text('รหัสห้อง ${waiting_room[roomNumber].id}'),
+                                Text('ผูเข้าร่วม ${roomData?['numJoin']}'),
+                                //empty = ยังไม่เลือกห้องให้ขึ้นให้เลือกก่อน
+                                selectedRoom.isNotEmpty
+                                    ? Center()
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Expanded(
+                                              child: Container(
+                                            margin: EdgeInsets.all(5),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                joinActivity();
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Colors.green),
+                                              child: Text('เข้าร่วมกิจกรรมนี้'),
+                                            ),
+                                          )),
+                                          Expanded(
+                                              child: Container(
+                                            margin: EdgeInsets.all(5),
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                nextActivity();
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.red),
+                                              child: Text('ดูกิจกรรมต่อไป'),
+                                            ),
+                                          ))
+                                        ],
+                                      )
+                              ],
+                            ),
+                          ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     // TextButton(
                     //     onPressed: () {
                     //       controller.reset();
-                    //       controller.duration = Duration(seconds: 5.0.toInt());
+                    //       controller.duration = Duration(seconds: 30);
                     //       progressState = 'รอสมาชิกเพิ่มเติม';
                     //       controller.animateTo(1);
                     //     },

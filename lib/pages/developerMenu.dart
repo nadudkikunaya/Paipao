@@ -141,6 +141,24 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.cyan),
                   child: Text('Login as demo2'),
                 )),
+                Expanded(
+                    child: ElevatedButton(
+                  onPressed: () {
+                    loginDemo('test03@paipao.app', '123456');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink.shade100),
+                  child: Text('Login as demo3'),
+                )),
+                Expanded(
+                    child: ElevatedButton(
+                  onPressed: () {
+                    loginDemo('test04@paipao.app', '123456');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink.shade100),
+                  child: Text('Login as demo4'),
+                )),
               ],
             ),
             Row(
