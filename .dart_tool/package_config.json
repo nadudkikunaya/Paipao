@@ -170,6 +170,12 @@
       "languageVersion": "2.16"
     },
     {
+      "name": "like_button",
+      "rootUri": "file:///C:/Users/mark/OneDrive/%E0%B9%80%E0%B8%94%E0%B8%AA%E0%B8%81%E0%B9%8C%E0%B8%97%E0%B9%87%E0%B8%AD%E0%B8%9B/flutter/.pub-cache/hosted/pub.dartlang.org/like_button-2.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///C:/Users/mark/OneDrive/%E0%B9%80%E0%B8%94%E0%B8%AA%E0%B8%81%E0%B9%8C%E0%B8%97%E0%B9%87%E0%B8%AD%E0%B8%9B/flutter/.pub-cache/hosted/pub.dartlang.org/lints-2.0.0",
       "packageUri": "lib/",
@@ -266,7 +272,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-14T06:13:19.515404Z",
+  "generated": "2022-11-14T06:17:30.460852Z",
   "generator": "pub",
   "generatorVersion": "2.18.2"
 }

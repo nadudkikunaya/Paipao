@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:1-9:12
-INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:1-9:12
-INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:1-9:12
+ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:1-9:12
+INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:1-9:12
+INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:1-9:12
 	package
-		ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:2:3-50
-		INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-		INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:2:3-50
+		INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:11-69
+		ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:1:11-69
 application
-ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:3:5-8:19
+ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:3:5-8:19
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:4:9-7:19
+ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:4:9-7:19
 	android:name
-		ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:4:18-89
+		ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:4:18-89
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:5:13-6:92
+ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:5:13-6:92
 	android:value
-		ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:6:24-89
+		ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:6:24-89
 	android:name
-		ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:5:24-141
+		ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml:5:24-141
 uses-sdk
-INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-		ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-		INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-		ADDED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
-		INJECTED from C:\FlutterSDK\flutter_windows_3.3.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		ADDED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
+		INJECTED from E:\flutter_windows_3.3.4-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-4.0.2\android\src\main\AndroidManifest.xml
