@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:paipao/pages/widget/announcementDetails.dart';
-import '../profile/profile.dart';
+import '../profile/profile_old.dart';
 
 class AnnouncementCard extends StatefulWidget {
   final Map<String, dynamic> announceData;

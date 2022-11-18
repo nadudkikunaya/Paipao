@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
+import 'package:paipao/pages/chat/chatMember.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:open_filex/open_filex.dart';
@@ -48,7 +49,39 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: Text('ห้องแชท')),
+        appBar: AppBar(
+            title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('ห้องแชท'),
+            Row(
+              children: [
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.sentiment_satisfied_outlined),
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChatMember(
+                                  participants: chatParticipants,
+                                )),
+                      );
+                    },
+                    icon: Icon(Icons.groups),
+                  ),
+                ),
+              ],
+            )
+          ],
+        )),
         body: loading
             ? Center(
                 child: Text('loading'),
@@ -349,6 +382,9 @@ class _ChatRoomState extends State<ChatRoom> {
         });
       }
     });
+    setState(() {
+      loading = false;
+    });
   }
 
   void _loadChatUser() async {
@@ -357,37 +393,7 @@ class _ChatRoomState extends State<ChatRoom> {
     else
       _loadMatchMakingUser();
 
-    // final res = await FirebaseFirestore.instance
-    //     .collection('announcement')
-    //     .doc(chat_id)
-    //     .collection('participants')
-    //     .get();
-
-    // print('get each user');
-    // for (var docId in res.docs) {
-    //   Map<String, dynamic> data = docId.data();
-    //   if (data['isAllowed']) {
-    //     await data['user_ref']
-    //         .get()
-    //         .then((DocumentSnapshot<Map<String, dynamic>> userDoc) async {
-    //       Map<String, dynamic>? userData = userDoc.data();
-    //       chatParticipants[userDoc.id] = {
-    //         'firstName': userData?['name'],
-    //         'imageUrl': userData?['profile'],
-    //         'id': userDoc.id
-    //       };
-    //       setState(() {
-    //         chatParticipants = chatParticipants;
-    //       });
-    //     });
-    //   }
-    // }
-
     print('get each user finish');
-    setState(() {
-      loading = false;
-    });
-    //_loadMessages();
   }
 
   List<types.Message>? formatMessage(
@@ -405,7 +411,7 @@ class _ChatRoomState extends State<ChatRoom> {
     return msg;
   }
 
-  void _loadMessages(QuerySnapshot<Map<String, dynamic>>? data) async {
+  void _loadMessages(QuerySnapshot<Map<String, dynamic>> data) async {
     print('get message');
     QuerySnapshot<Map<String, dynamic>> res = await FirebaseFirestore.instance
         .collection('chats')

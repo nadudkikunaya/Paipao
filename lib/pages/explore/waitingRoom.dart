@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:paipao/pages/chat/chatRoom.dart';
 
 class WaitingRoom extends StatefulWidget {
@@ -176,6 +177,9 @@ class _WaitingRoomState extends State<WaitingRoom>
           .update({
         'isLocked': true,
       });
+      int millisec = DateTime.now().millisecondsSinceEpoch;
+      String dateformatted = DateFormat('dd/MM/yyyy')
+          .format(DateTime.fromMillisecondsSinceEpoch(millisec));
 
       await FirebaseFirestore.instance
           .collection('chats')
@@ -183,13 +187,15 @@ class _WaitingRoomState extends State<WaitingRoom>
           .set({
         'chatImage':
             'https://cdn2.vectorstock.com/i/1000x1000/61/61/cute-blue-tree-cartoon-vector-15226161.jpg',
-        'chatName': 'กิจกรรม-${waiting_room[roomNumber].id}',
+        'chatName': 'กิจกรรม${roomData?['activity']}-${dateformatted}',
         'chatNumJoin': roomData?['numJoin'],
         'isGroup': true,
         'isMatchmaking': true,
         'participants': roomData?['participants']
       });
     }
+
+    updateUserExp();
 
     await FirebaseFirestore.instance
         .collection('users')
@@ -203,6 +209,32 @@ class _WaitingRoomState extends State<WaitingRoom>
       'latest_write': Timestamp.fromMillisecondsSinceEpoch(
           DateTime.now().millisecondsSinceEpoch)
     });
+  }
+
+  void updateUserExp() async {
+    DocumentSnapshot<Map<String, dynamic>> userExpData =
+        await FirebaseFirestore.instance.collection('users').doc(user_id).get();
+    Map<String, dynamic>? exp = userExpData.data()?['exp'];
+
+    // ignore: prefer_conditional_assignment
+    if (exp == null) {
+      exp = {};
+    }
+
+    if (exp!.containsKey(widget.activity)) {
+      exp[widget.activity] = (exp[widget.activity]! as int) + 1;
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .update({'exp': exp});
+    } else {
+      exp[widget.activity] = 1;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .update({'exp': exp});
+    }
   }
 
   void nextActivity() {
@@ -259,6 +291,8 @@ class _WaitingRoomState extends State<WaitingRoom>
         if (controller.isCompleted && durationValue == 30) {
           createChat();
           isProgressing = false;
+          controller.dispose();
+          subscription.cancel();
           setState(() {
             isProgressing = isProgressing;
           });
@@ -356,7 +390,7 @@ class _WaitingRoomState extends State<WaitingRoom>
                             child: Column(
                               children: [
                                 Text('รหัสห้อง ${waiting_room[roomNumber].id}'),
-                                Text('ผูเข้าร่วม ${roomData?['numJoin']}'),
+                                Text('ผู้เข้าร่วม ${roomData?['numJoin']}'),
                                 //empty = ยังไม่เลือกห้องให้ขึ้นให้เลือกก่อน
                                 selectedRoom.isNotEmpty
                                     ? Center()

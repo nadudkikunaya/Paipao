@@ -786,38 +786,12 @@ class _CreateAnnouncementState extends State<CreateAnnouncement> {
                                   'announce_ref': announce_ref,
                                   'status': 'creator',
                                 }).then((value) {});
-                                print('create chat group');
 
-                                await FirebaseFirestore.instance
-                                    .collection('chats')
-                                    .doc(value.id)
-                                    .set({
-                                  'chatImage':
-                                      'https://cdn2.vectorstock.com/i/1000x1000/61/61/cute-blue-tree-cartoon-vector-15226161.jpg',
-                                  'chatName': activityNameController.text,
-                                  'chatNumJoin': 1,
-                                  'isGroup': true,
-                                  'isMatchmaking': false,
-                                }).then((chat) async {
-                                  print('create chat group in user');
-                                  await FirebaseFirestore.instance
-                                      .collection('users')
-                                      .doc(user_id)
-                                      .collection('chats')
-                                      .doc(value.id)
-                                      .set({
-                                    'chat_ref': FirebaseFirestore.instance
-                                        .collection('chats')
-                                        .doc(value.id),
-                                    'latest_write':
-                                        Timestamp.fromDate(DateTime.now())
-                                  }).then(
-                                    (value) {
-                                      print('finish everything');
-                                      Navigator.pop(context);
-                                    },
-                                  );
-                                });
+                                print('create chat group');
+                                createChat(value);
+
+                                print('update exp');
+                                updateUserExp();
                               });
                             }
                           },
@@ -831,5 +805,59 @@ class _CreateAnnouncementState extends State<CreateAnnouncement> {
         ),
       ),
     );
+  }
+
+  void createChat(value) async {
+    await FirebaseFirestore.instance.collection('chats').doc(value.id).set({
+      'chatImage':
+          'https://cdn2.vectorstock.com/i/1000x1000/61/61/cute-blue-tree-cartoon-vector-15226161.jpg',
+      'chatName': activityNameController.text,
+      'chatNumJoin': 1,
+      'isGroup': true,
+      'isMatchmaking': false,
+    }).then((chat) async {
+      print('create chat group in user');
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .collection('chats')
+          .doc(value.id)
+          .set({
+        'chat_ref':
+            FirebaseFirestore.instance.collection('chats').doc(value.id),
+        'latest_write': Timestamp.fromDate(DateTime.now())
+      }).then(
+        (value) {
+          print('finish everything');
+          Navigator.pop(context);
+        },
+      );
+    });
+  }
+
+  void updateUserExp() async {
+    DocumentSnapshot<Map<String, dynamic>> userExpData =
+        await FirebaseFirestore.instance.collection('users').doc(user_id).get();
+    Map<String, dynamic>? exp = userExpData.data()?['exp'];
+
+    // ignore: prefer_conditional_assignment
+    if (exp == null) {
+      exp = {};
+    }
+
+    if (exp!.containsKey(activityController.text)) {
+      exp[activityController.text] = (exp[activityController.text]! as int) + 1;
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .update({'exp': exp});
+    } else {
+      exp[activityController.text] = 1;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .update({'exp': exp});
+    }
   }
 }

@@ -148,8 +148,37 @@ class _AnnouncementDetailState extends State<AnnouncementDetail> {
             .update({
           'chatNumJoin': FieldValue.increment(1),
         });
+
+        updateUserExp();
       }
     });
+  }
+
+  void updateUserExp() async {
+    DocumentSnapshot<Map<String, dynamic>> userExpData =
+        await FirebaseFirestore.instance.collection('users').doc(user_id).get();
+    Map<String, dynamic>? exp = userExpData.data()?['exp'];
+
+    // ignore: prefer_conditional_assignment
+    if (exp == null) {
+      exp = {};
+    }
+
+    if (exp!.containsKey(widget.announceData['activity_id'])) {
+      exp[widget.announceData['activity_id']] =
+          (exp[widget.announceData['activity_id']]! as int) + 1;
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .update({'exp': exp});
+    } else {
+      exp[widget.announceData['activity_id']] = 1;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user_id)
+          .update({'exp': exp});
+    }
   }
 
   void refresh(isUpdateNumJoin) {
