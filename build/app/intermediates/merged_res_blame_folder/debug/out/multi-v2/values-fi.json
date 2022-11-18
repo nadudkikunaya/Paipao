@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\paipao\\paipao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-fi\\values-fi.xml",
+            "outputFile": "D:\\Project SE\\Pai pao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-fi\\values-fi.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\3ff720be07735976176520d1c05fb799\\transformed\\jetified-play-services-base-18.0.1\\res\\values-fi\\values.xml",
+                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\3ff720be07735976176520d1c05fb799\\transformed\\jetified-play-services-base-18.0.1\\res\\values-fi\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,6 +21,7 @@
                     }
                 },
                 {
+<<<<<<< HEAD
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\d363e3b5616f580c766e3e2b3c05f27d\\transformed\\core-1.8.0\\res\\values-fi\\values-fi.xml",
                     "from": {
                         "startLines": "2",
@@ -39,6 +40,9 @@
                 },
                 {
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\6b0daa5fb4c2eb7e8b55778df9b972f6\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-fi\\values.xml",
+=======
+                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\6b0daa5fb4c2eb7e8b55778df9b972f6\\transformed\\jetified-play-services-basement-18.1.0\\res\\values-fi\\values.xml",
+>>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -55,6 +59,7 @@
                     }
                 },
                 {
+<<<<<<< HEAD
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\05304738454a7c6fee076a188df4c25d\\transformed\\browser-1.4.0\\res\\values-fi\\values-fi.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -69,6 +74,22 @@
                         "startOffsets": "2226,2329,2430,2539",
                         "endColumns": "102,100,108,98",
                         "endOffsets": "2324,2425,2534,2633"
+=======
+                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\d363e3b5616f580c766e3e2b3c05f27d\\transformed\\core-1.8.0\\res\\values-fi\\values-fi.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2226",
+                        "endColumns": "100",
+                        "endOffsets": "2322"
+>>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a
                     }
                 }
             ]

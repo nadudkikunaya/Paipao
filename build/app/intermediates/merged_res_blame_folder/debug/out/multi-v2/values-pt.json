@@ -1,9 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\paipao\\paipao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pt\\values-pt.xml",
+            "outputFile": "D:\\Project SE\\Pai pao\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-pt\\values-pt.xml",
             "map": [
                 {
+<<<<<<< HEAD
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\05304738454a7c6fee076a188df4c25d\\transformed\\browser-1.4.0\\res\\values-pt\\values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5",
@@ -15,6 +16,9 @@
                 },
                 {
                     "source": "C:\\Users\\INatZ\\.gradle\\caches\\transforms-3\\d363e3b5616f580c766e3e2b3c05f27d\\transformed\\core-1.8.0\\res\\values-pt\\values-pt.xml",
+=======
+                    "source": "C:\\Users\\ASUS\\.gradle\\caches\\transforms-3\\d363e3b5616f580c766e3e2b3c05f27d\\transformed\\core-1.8.0\\res\\values-pt\\values-pt.xml",
+>>>>>>> e2edbaa263456fdd43fed5b8dbfcf00e09389d8a
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
