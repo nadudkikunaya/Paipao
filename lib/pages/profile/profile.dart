@@ -9,14 +9,16 @@ import 'StatWidget.dart';
 import 'Status.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  const Profile({super.key, required this.user_id});
+  final String user_id;
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  final String user_id = FirebaseAuth.instance.currentUser!.uid;
+  String user_id = FirebaseAuth.instance.currentUser!.uid;
+  bool isMyProfile = false;
   String name = '';
   String gender = "";
   String desc = "";
@@ -129,6 +131,10 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     // TODO: implement initState
+    user_id = widget.user_id ?? user_id;
+    if (user_id == FirebaseAuth.instance.currentUser!.uid) {
+      isMyProfile = true;
+    }
     getData();
     super.initState();
   }
@@ -137,34 +143,36 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Padding(
-            padding: EdgeInsets.symmetric(),
-            child: IconButton(
-              icon: Icon(Icons.post_add),
-              iconSize: 32,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NewPost()),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(),
-            child: IconButton(
-              icon: const Icon(Icons.settings_outlined),
-              iconSize: 32,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EditProfile()),
-                );
-              },
-            ),
-          ),
-        ]),
+        title: !isMyProfile
+            ? Text('โปรไฟล์')
+            : Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(),
+                  child: IconButton(
+                    icon: Icon(Icons.post_add),
+                    iconSize: 32,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => NewPost()),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(),
+                  child: IconButton(
+                    icon: const Icon(Icons.settings_outlined),
+                    iconSize: 32,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EditProfile()),
+                      );
+                    },
+                  ),
+                ),
+              ]),
       ),
       body: name == ''
           ? Center(child: Text('loading'))

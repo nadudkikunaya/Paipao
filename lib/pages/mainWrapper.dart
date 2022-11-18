@@ -18,16 +18,18 @@ class MainWrapper extends StatefulWidget {
 
 class _MainWrapperState extends State<MainWrapper> {
   int _selectedBottomNav = 0;
-  static const List<Widget> _pages = <Widget>[
+  final String user_id = FirebaseAuth.instance.currentUser!.uid;
+
+  final List<StatefulWidget> _pages = [
     Feed(),
     Explore(),
     Chat(),
-    Profile(),
   ];
 
   @override
   void initState() {
     // TODO: implement initState
+    _pages.add(Profile(user_id: user_id));
 
     super.initState();
   }
