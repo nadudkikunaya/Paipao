@@ -9,6 +9,7 @@ import 'package:paipao/pages/explore/createAnnouncement.dart';
 import 'package:paipao/pages/explore/matchMakingFilter.dart';
 import 'package:paipao/pages/explore/waitingRoom.dart';
 import 'package:paipao/pages/factory.dart';
+import 'package:paipao/pages/randomizer/randomizer.dart';
 import 'mainWrapper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -162,6 +163,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                 )),
               ],
             ),
+
             Row(
               children: [
                 Expanded(
@@ -177,14 +179,20 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             );
                           });
                     });
-                    // showDialog(
-                    //     context: context,
-                    //     builder: (context) {
-                    //       return WaitingRoom();
-                    //     });
                   },
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                  child: Text('Test Component'),
+                  child: Text('Test WaitingRoom'),
+                )),
+                Expanded(
+                    child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Randomizer()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                  child: Text('Test Randomizer'),
                 ))
               ],
             ),
