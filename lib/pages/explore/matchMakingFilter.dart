@@ -95,15 +95,15 @@ class _MatchMakingFilterState extends State<MatchMakingFilter> {
                         children: [
                           IconButton(
                               onPressed: () {
-                                increaseNumJoin();
+                                decreaseNumJoin();
                               },
-                              icon: Icon(Icons.add)),
+                              icon: Icon(Icons.remove)),
                           Text('$numJoin คน'),
                           IconButton(
                               onPressed: () {
-                                decreaseNumJoin();
+                                increaseNumJoin();
                               },
-                              icon: Icon(Icons.remove))
+                              icon: Icon(Icons.add))
                         ],
                       ),
                       TextField(

@@ -186,7 +186,8 @@ class _EditProfileState extends State<EditProfile> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: TextFormField(
-                      maxLines: detailMaxLines,
+                      maxLines: null,
+                      expands: true,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 10),

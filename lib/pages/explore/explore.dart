@@ -9,7 +9,7 @@ import 'package:paipao/pages/explore/createAnnouncement.dart';
 import 'package:paipao/pages/explore/filterAlertDialog.dart';
 import 'package:paipao/pages/explore/matchMakingFilter.dart';
 import 'package:select_form_field/select_form_field.dart';
-import '../widget/announcementCard.dart';
+import 'announcementCard.dart';
 
 class Explore extends StatefulWidget {
   const Explore({super.key});

@@ -348,7 +348,7 @@ class _CreateAnnouncementState extends State<CreateAnnouncement> {
                               ),
                               Container(
                                 alignment: Alignment.centerLeft,
-                                margin: EdgeInsets.all(5),
+                                //margin: EdgeInsets.all(5),
                                 child: Wrap(
                                   children: [
                                     Container(
@@ -357,9 +357,9 @@ class _CreateAnnouncementState extends State<CreateAnnouncement> {
                                           style: IconButton.styleFrom(
                                               shape: CircleBorder()),
                                           onPressed: () {
-                                            increaseNumJoin();
+                                            decreaseNumJoin();
                                           },
-                                          icon: Icon(Icons.add)),
+                                          icon: Icon(Icons.remove)),
                                     ),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
@@ -395,9 +395,9 @@ class _CreateAnnouncementState extends State<CreateAnnouncement> {
                                       margin: EdgeInsets.only(top: 2),
                                       child: IconButton(
                                           onPressed: () {
-                                            decreaseNumJoin();
+                                            increaseNumJoin();
                                           },
-                                          icon: Icon(Icons.minimize)),
+                                          icon: Icon(Icons.add)),
                                     ),
                                   ],
                                 ),

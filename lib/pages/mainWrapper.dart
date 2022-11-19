@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paipao/pages/auth/login.dart';
 import 'package:paipao/pages/chat/chat.dart';
+import 'package:paipao/pages/developerMenu.dart';
 import 'package:select_form_field/select_form_field.dart';
 import 'package:paipao/pages/profile/profile.dart';
 import './feed/feed.dart';
@@ -20,16 +21,18 @@ class _MainWrapperState extends State<MainWrapper> {
   int _selectedBottomNav = 0;
   final String user_id = FirebaseAuth.instance.currentUser!.uid;
 
-  final List<StatefulWidget> _pages = [
-    Feed(),
-    Explore(),
-    Chat(),
-  ];
+  List<StatefulWidget> _pages = [];
 
   @override
   void initState() {
     // TODO: implement initState
-    _pages.add(Profile(user_id: user_id));
+    _pages = [
+      // DeveloperMenu(),
+      Feed(),
+      Explore(),
+      Chat(),
+      Profile(user_id: user_id)
+    ];
 
     super.initState();
   }
@@ -43,6 +46,11 @@ class _MainWrapperState extends State<MainWrapper> {
           selectedItemColor: Colors.white,
           showUnselectedLabels: true,
           items: [
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.construction),
+            //   label: 'นักพัฒนา',
+            //   backgroundColor: Colors.blue,
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'โฮม',

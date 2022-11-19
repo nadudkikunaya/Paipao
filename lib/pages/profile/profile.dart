@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:paipao/pages/editProfile/editProfile.dart';
 import 'package:paipao/pages/newPost/newPost.dart';
 import 'Information.dart';
-import 'Post.dart';
+import '../widget/Post.dart';
 import 'StatWidget.dart';
 import 'Status.dart';
 
@@ -20,36 +20,39 @@ class _ProfileState extends State<Profile> {
   String user_id = FirebaseAuth.instance.currentUser!.uid;
   bool isMyProfile = false;
   String name = '';
-  String gender = "";
-  String desc = "";
+  String gender = '';
+  String desc = '';
   bool? isDrinking;
   bool? isSmoking;
   bool? isVegetarian;
   int age = 0;
-  String avatarURL = "";
+  String avatarURL = '';
   Map<String, int>? exp = {};
+  // List<String> followingCheck = [];
+  List<String> follower = [];
+  List<String> following = [];
   List<String> imgPost = [
-    "https://cdn.pixabay.com/photo/2017/01/20/00/30/maldives-1993704_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2018/10/19/12/14/train-3758523_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_960_720.jpg"
+    'https://cdn.pixabay.com/photo/2017/01/20/00/30/maldives-1993704_960_720.jpg',
+    'https://cdn.pixabay.com/photo/2018/10/19/12/14/train-3758523_960_720.jpg',
+    'https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_960_720.jpg'
   ];
 
   List<Map<String, dynamic>> postInfo = [
-    {
-      "img":
-          "https://cdn.pixabay.com/photo/2017/01/20/00/30/maldives-1993704_960_720.jpg",
-      "caption": "ฮูลาฮูลา ลัลลั้ลลาในทะเล"
-    },
-    {
-      "img":
-          "https://cdn.pixabay.com/photo/2018/10/19/12/14/train-3758523_960_720.jpg",
-      "caption": "รถไฟจะไปโคราช"
-    },
-    {
-      "img":
-          "https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_960_720.jpg",
-      "caption": "เย้ๆๆๆ ถึงโคราชแล้ว"
-    }
+    // {
+    //   "imageUrl":
+    //       "https://cdn.pixabay.com/photo/2017/01/20/00/30/maldives-1993704_960_720.jpg",
+    //   "caption": "ฮูลาฮูลา ลัลลั้ลลาในทะเล"
+    // },
+    // {
+    //   "imageUrl":
+    //       "https://cdn.pixabay.com/photo/2018/10/19/12/14/train-3758523_960_720.jpg",
+    //   "caption": "รถไฟจะไปโคราช"
+    // },
+    // {
+    //   "imageUrl":
+    //       "https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_960_720.jpg",
+    //   "caption": "เย้ๆๆๆ ถึงโคราชแล้ว"
+    // }
   ];
 
   String getRank(int value) {
@@ -85,30 +88,131 @@ class _ProfileState extends State<Profile> {
   }
 
   String genderENtoTH(gender) {
-    if (gender == "male")
-      return "ชาย";
-    else if (gender == "female")
-      return "หญิง";
+    if (gender == 'male')
+      return 'ชาย';
+    else if (gender == 'female')
+      return 'หญิง';
     else
       return gender;
   }
 
-  void getData() {
-    FirebaseFirestore.instance
-        .collection("users")
+  // void getFollowingCheck() async {
+  //   String realId = FirebaseAuth.instance.currentUser!.uid;
+  //   QuerySnapshot<Map<String, dynamic>> collection = await FirebaseFirestore
+  //       .instance
+  //       .collection('users')
+  //       .doc(realId)
+  //       .collection('following')
+  //       .get();
+
+  //   for (QueryDocumentSnapshot<Map<String, dynamic>> doc in collection.docs) {
+  //     String docid = doc.id;
+  //     followingCheck.add(docid);
+  //   }
+  //   print(followingCheck);
+  // }
+
+  void getFollowing() async {
+    QuerySnapshot<Map<String, dynamic>> collection = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(user_id)
+        .collection('following')
+        .get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in collection.docs) {
+      String docid = doc.id;
+      following.add(docid);
+    }
+    print('following');
+    print(following);
+  }
+
+  void getFollower() async {
+    QuerySnapshot<Map<String, dynamic>> collection = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(user_id)
+        .collection('follower')
+        .get();
+
+    for (QueryDocumentSnapshot<Map<String, dynamic>> doc in collection.docs) {
+      String docid = doc.id;
+      follower.add(docid);
+    }
+
+    print('follower');
+    print(follower);
+  }
+
+  void unfollowUpdate() async {
+    String realId = FirebaseAuth.instance.currentUser!.uid;
+    setState(() {
+      //followingCheck.remove(realId);
+      follower.remove(realId);
+    });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_id)
+        .collection('follower')
+        .doc(realId)
+        .delete();
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(realId)
+        .collection('following')
+        .doc(user_id)
+        .delete();
+
+    print('here2');
+  }
+
+  void followUpdate() async {
+    String realId = FirebaseAuth.instance.currentUser!.uid;
+    setState(() {
+      //followingCheck.add(realId);
+      follower.add(realId);
+    });
+
+    //update follower at this profile user
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_id)
+        .collection('follower')
+        .doc(realId)
+        .set({
+      'user_ref': FirebaseFirestore.instance.collection('users').doc(realId)
+    });
+
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(realId)
+        .collection('following')
+        .doc(user_id)
+        .set({
+      'user_ref': FirebaseFirestore.instance.collection('users').doc(user_id)
+    });
+
+    print('here1');
+  }
+
+  void getData() async {
+    await FirebaseFirestore.instance
+        .collection('users')
         .doc(user_id)
         .get()
         .then((doc) {
       Map<String, dynamic>? user_data = doc.data();
-      print(user_data);
       setState(() {
-        name = user_data?["name"];
-        gender = genderENtoTH(user_data?["gender"]);
-        desc = user_data?["description"];
-        avatarURL = user_data?["profile"];
-        isVegetarian = user_data?["preference"]["isVegetarian"];
-        isDrinking = user_data?["preference"]["isDrinking"];
-        isSmoking = user_data?["preference"]["isSmoking"];
+        name = user_data?['name'];
+        gender = genderENtoTH(user_data?['gender']);
+        desc = user_data?['description'];
+        avatarURL = user_data?['profile'];
+        isVegetarian = user_data?['preference']['isVegetarian'];
+        isDrinking = user_data?['preference']['isDrinking'];
+        isSmoking = user_data?['preference']['isSmoking'];
         Map<String, dynamic> temp = user_data?['exp'];
         temp.forEach((key, value) {
           print('$key $value');
@@ -128,14 +232,42 @@ class _ProfileState extends State<Profile> {
     });
   }
 
+  void getPost() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_id)
+        .collection('posts')
+        .orderBy('createdAt', descending: true)
+        .get()
+        .then((collection) async {
+      for (QueryDocumentSnapshot<Map<String, dynamic>> doc in collection.docs) {
+        DocumentReference postRef =
+            (doc.data()['post_ref'] as DocumentReference);
+        postRef.get().then((postDoc) {
+          setState(() {
+            postInfo.add((postDoc.data() as Map<String, dynamic>));
+            print(postInfo);
+          });
+        });
+      }
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+
     user_id = widget.user_id ?? user_id;
     if (user_id == FirebaseAuth.instance.currentUser!.uid) {
       isMyProfile = true;
     }
+    getFollowing();
+    getFollower();
+    // if (!isMyProfile) {
+    //   getFollowingCheck();
+    // }
     getData();
+    getPost();
     super.initState();
   }
 
@@ -154,7 +286,11 @@ class _ProfileState extends State<Profile> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => NewPost()),
+                        MaterialPageRoute(
+                            builder: (context) => NewPost(
+                                  follower: follower,
+                                  following: following,
+                                )),
                       );
                     },
                   ),
@@ -207,14 +343,17 @@ class _ProfileState extends State<Profile> {
                                   radius: 56,
                                   backgroundImage: NetworkImage(avatarURL),
                                 ),
-                                StatWidget("Followers", "100M"),
-                                StatWidget("Following", "0")
+                                StatWidget(
+                                    'ผู้ติดตาม', follower.length.toString()),
+                                StatWidget(
+                                    'กำลังติดตาม', following.length.toString()),
                               ],
                             ),
                           ),
                         ),
                       ),
                     ),
+
                     exp!.keys.isEmpty
                         ? Center()
                         : Wrap(
@@ -250,6 +389,7 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                     ),
+
                     Container(
                       // child: Expanded(
                       child: Column(
@@ -310,27 +450,80 @@ class _ProfileState extends State<Profile> {
                               )
                             ],
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 12),
-                            alignment: Alignment.topLeft,
-                            child: Text("Post",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold)),
-                          ),
+                          isMyProfile
+                              ? Center()
+                              : follower.any((element) =>
+                                      element ==
+                                      FirebaseAuth.instance.currentUser!.uid)
+                                  ? Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Expanded(
+                                              child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.grey),
+                                            onPressed: () {
+                                              unfollowUpdate();
+                                            },
+                                            child: Text('เลิกติดตาม'),
+                                          ))
+                                        ],
+                                      ),
+                                    )
+                                  : Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Expanded(
+                                              child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.blue),
+                                            onPressed: () {
+                                              followUpdate();
+                                            },
+                                            child: Text('ติดตาม'),
+                                          ))
+                                        ],
+                                      ),
+                                    ),
+                          postInfo.isEmpty
+                              ? Center()
+                              : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 12),
+                                  alignment: Alignment.topLeft,
+                                  child: Text('Post',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                ),
+                          postInfo.isEmpty
+                              ? Center()
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: postInfo.length,
+                                  itemBuilder: (context, index) {
+                                    return Post(
+                                        user_name: name,
+                                        profile: avatarURL,
+                                        user_id: user_id,
+                                        photo: postInfo[index]['imageUrl'],
+                                        text: postInfo[index]['caption']);
+                                  },
+                                ),
                         ],
                       ),
                     ),
                     // ),
 
-                    ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: postInfo.length,
-                      itemBuilder: (context, index) {
-                        return CreatePost(
-                            postInfo[index]["img"], postInfo[index]["caption"]);
-                      },
-                    ),
                     // CreatePost(
                     //     "https://cdn.pixabay.com/photo/2017/01/20/00/30/maldives-1993704_960_720.jpg",
                     //     "ฮูลาฮูลา ลัลลั้ลลาในทะเล"),
