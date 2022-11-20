@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:paipao/pages/chat/chatRoom.dart';
 import 'package:paipao/pages/editProfile/editProfile.dart';
+import 'package:paipao/pages/editProfile/profileSetting.dart';
 import 'package:paipao/pages/newPost/newPost.dart';
+import 'package:paipao/pages/profile/reportDialog.dart';
+import 'package:paipao/pages/profile/Status.dart';
 import 'Information.dart';
 import '../widget/Post.dart';
 import 'StatWidget.dart';
-import 'Status.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key, required this.user_id});
@@ -303,7 +306,8 @@ class _ProfileState extends State<Profile> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => EditProfile()),
+                        MaterialPageRoute(
+                            builder: (context) => ProfileSetting()),
                       );
                     },
                   ),
@@ -452,31 +456,62 @@ class _ProfileState extends State<Profile> {
                           ),
                           isMyProfile
                               ? Center()
-                              : follower.any((element) =>
-                                      element ==
-                                      FirebaseAuth.instance.currentUser!.uid)
-                                  ? Container(
+                              : Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    follower.any((element) =>
+                                            element ==
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                        ? Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                    child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.grey),
+                                                  onPressed: () {
+                                                    unfollowUpdate();
+                                                  },
+                                                  child: Text('เลิกติดตาม'),
+                                                ))
+                                              ],
+                                            ),
+                                          )
+                                        : Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Expanded(
+                                                    child: ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.blue),
+                                                  onPressed: () {
+                                                    followUpdate();
+                                                  },
+                                                  child: Text('ติดตาม'),
+                                                ))
+                                              ],
+                                            ),
+                                          ),
+                                    Container(
                                       width: MediaQuery.of(context).size.width *
-                                          0.4,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Expanded(
-                                              child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.grey),
-                                            onPressed: () {
-                                              unfollowUpdate();
-                                            },
-                                            child: Text('เลิกติดตาม'),
-                                          ))
-                                        ],
-                                      ),
-                                    )
-                                  : Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.4,
+                                          0.3,
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
@@ -485,14 +520,79 @@ class _ProfileState extends State<Profile> {
                                               child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.blue),
-                                            onPressed: () {
-                                              followUpdate();
+                                            onPressed: () async {
+                                              // String realId = FirebaseAuth
+                                              //     .instance.currentUser!.uid;
+                                              // await FirebaseFirestore.instance
+                                              //     .collection('chats')
+                                              //     .where('participants',
+                                              //         arrayContainsAny: [
+                                              //           user_id,
+                                              //           realId
+                                              //         ])
+                                              //     .where('isGroup',
+                                              //         isEqualTo: false)
+                                              //     .get()
+                                              //     .then((doc) async {
+                                              //       if (doc.docs.isEmpty) {
+                                              //         //add room
+                                              //         await FirebaseFirestore
+                                              //             .instance
+                                              //             .collection('chats')
+                                              //             .add({
+                                              //           'isGroup': false,
+                                              //           'isMathcMaking': false,
+                                              //         });
+                                              //       } else {
+                                              //         Navigator.push(
+                                              //           context,
+                                              //           MaterialPageRoute(
+                                              //               builder:
+                                              //                   (context) =>
+                                              //                       ChatRoom(
+                                              //                         isMatchmaking:
+                                              //                             false,
+                                              //                         chat_id: doc
+                                              //                             .docs[
+                                              //                                 0]
+                                              //                             .id,
+                                              //                       )),
+                                              //         );
+                                              //       }
+                                              //     });
                                             },
-                                            child: Text('ติดตาม'),
+                                            child: Text('แขท'),
                                           ))
                                         ],
                                       ),
                                     ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Expanded(
+                                              child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.indigo),
+                                            onPressed: () {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return ReportDialoig(
+                                                        report_user_id:
+                                                            user_id);
+                                                  });
+                                            },
+                                            child: Text('รายงาน'),
+                                          ))
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                           postInfo.isEmpty
                               ? Center()
                               : Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:like_button/like_button.dart';
+import 'package:paipao/pages/profile/profile.dart';
 
 class Post extends StatefulWidget {
   const Post(
@@ -27,18 +28,29 @@ class _PostState extends State<Post> {
         child: Column(children: [
           Container(
             margin: EdgeInsets.only(top: 10, left: 10),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(widget.profile),
-                  radius: 25,
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child:
-                      Title(color: Colors.blue, child: Text(widget.user_name)),
-                )
-              ],
+            child: GestureDetector(
+              onTap: (() {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Profile(
+                            user_id: widget.user_id,
+                          )),
+                );
+              }),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    backgroundImage: NetworkImage(widget.profile),
+                    radius: 25,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Title(
+                        color: Colors.blue, child: Text(widget.user_name)),
+                  )
+                ],
+              ),
             ),
           ),
           widget.photo == null

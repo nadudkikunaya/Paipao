@@ -66,6 +66,7 @@ class _EditProfileState extends State<EditProfile> {
         descriptionController.text = desc;
         nameController.text = name;
         // ignore: division_optimization
+        print('in fucking setstate');
       });
     });
   }
@@ -115,6 +116,7 @@ class _EditProfileState extends State<EditProfile> {
             )
           : SingleChildScrollView(
               scrollDirection: Axis.vertical,
+              clipBehavior: Clip.antiAlias,
               child: Center(
                 child: Column(children: [
                   SizedBox(
@@ -187,7 +189,6 @@ class _EditProfileState extends State<EditProfile> {
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: TextFormField(
                       maxLines: null,
-                      expands: true,
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
                               vertical: 10, horizontal: 10),
