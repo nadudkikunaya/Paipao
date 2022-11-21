@@ -51,7 +51,7 @@ dependencies:
   http: ^0.13.5
   firebase_auth: ^4.0.2
   firebase_storage: ^11.0.4
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.11.0
   select_form_field: ^2.2.0
   like_button: ^2.0.5
 
