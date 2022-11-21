@@ -21,6 +21,8 @@ class Post extends StatefulWidget {
 }
 
 class _PostState extends State<Post> {
+  final bool isLiked = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -90,11 +92,12 @@ class _PostState extends State<Post> {
               //     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
               //     child: Icon(Icons.favorite_border_outlined)),
               LikeButton(
+                isLiked: isLiked,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
                 size: 20,
               ),
-              Text("10,000 Likes")
+              Text("${!isLiked ? 0 : 1} ถูกใจ")
             ],
           ),
         ]),

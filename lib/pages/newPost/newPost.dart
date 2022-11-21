@@ -32,7 +32,7 @@ class _NewPostState extends State<NewPost> {
         title: Container(
           alignment: Alignment.centerLeft,
           child: Text(
-            "New Post",
+            "สร้างโพสต์ใหม่",
             style: TextStyle(
                 fontSize: 25, color: Colors.white, fontWeight: FontWeight.w600),
           ),

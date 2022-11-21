@@ -88,6 +88,15 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto/Roboto-Italic.ttf
+          style: italic
+    - family: K2D
+      fonts:
+        - asset: assets/fonts/K2D/K2D-Regular.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -102,6 +111,7 @@ flutter:
     - province.json
     - test.json
     - logo_krit.png
+    #- fonts/Roboto-Regular.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

@@ -509,63 +509,63 @@ class _ProfileState extends State<Profile> {
                                               ],
                                             ),
                                           ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.3,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Expanded(
-                                              child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.blue),
-                                            onPressed: () async {
-                                              // String realId = FirebaseAuth
-                                              //     .instance.currentUser!.uid;
-                                              // await FirebaseFirestore.instance
-                                              //     .collection('chats')
-                                              //     .where('participants',
-                                              //         arrayContainsAny: [
-                                              //           user_id,
-                                              //           realId
-                                              //         ])
-                                              //     .where('isGroup',
-                                              //         isEqualTo: false)
-                                              //     .get()
-                                              //     .then((doc) async {
-                                              //       if (doc.docs.isEmpty) {
-                                              //         //add room
-                                              //         await FirebaseFirestore
-                                              //             .instance
-                                              //             .collection('chats')
-                                              //             .add({
-                                              //           'isGroup': false,
-                                              //           'isMathcMaking': false,
-                                              //         });
-                                              //       } else {
-                                              //         Navigator.push(
-                                              //           context,
-                                              //           MaterialPageRoute(
-                                              //               builder:
-                                              //                   (context) =>
-                                              //                       ChatRoom(
-                                              //                         isMatchmaking:
-                                              //                             false,
-                                              //                         chat_id: doc
-                                              //                             .docs[
-                                              //                                 0]
-                                              //                             .id,
-                                              //                       )),
-                                              //         );
-                                              //       }
-                                              //     });
-                                            },
-                                            child: Text('แขท'),
-                                          ))
-                                        ],
-                                      ),
-                                    ),
+                                    // Container(
+                                    //   width: MediaQuery.of(context).size.width *
+                                    //       0.3,
+                                    //   child: Row(
+                                    //     mainAxisAlignment:
+                                    //         MainAxisAlignment.spaceAround,
+                                    //     children: [
+                                    //       // Expanded(
+                                    //       //     child: ElevatedButton(
+                                    //       //   style: ElevatedButton.styleFrom(
+                                    //       //       backgroundColor: Colors.blue),
+                                    //       //   onPressed: () async {
+                                    //       //     // String realId = FirebaseAuth
+                                    //       //     //     .instance.currentUser!.uid;
+                                    //       //     // await FirebaseFirestore.instance
+                                    //       //     //     .collection('chats')
+                                    //       //     //     .where('participants',
+                                    //       //     //         arrayContainsAny: [
+                                    //       //     //           user_id,
+                                    //       //     //           realId
+                                    //       //     //         ])
+                                    //       //     //     .where('isGroup',
+                                    //       //     //         isEqualTo: false)
+                                    //       //     //     .get()
+                                    //       //     //     .then((doc) async {
+                                    //       //     //       if (doc.docs.isEmpty) {
+                                    //       //     //         //add room
+                                    //       //     //         await FirebaseFirestore
+                                    //       //     //             .instance
+                                    //       //     //             .collection('chats')
+                                    //       //     //             .add({
+                                    //       //     //           'isGroup': false,
+                                    //       //     //           'isMathcMaking': false,
+                                    //       //     //         });
+                                    //       //     //       } else {
+                                    //       //     //         Navigator.push(
+                                    //       //     //           context,
+                                    //       //     //           MaterialPageRoute(
+                                    //       //     //               builder:
+                                    //       //     //                   (context) =>
+                                    //       //     //                       ChatRoom(
+                                    //       //     //                         isMatchmaking:
+                                    //       //     //                             false,
+                                    //       //     //                         chat_id: doc
+                                    //       //     //                             .docs[
+                                    //       //     //                                 0]
+                                    //       //     //                             .id,
+                                    //       //     //                       )),
+                                    //       //     //         );
+                                    //       //     //       }
+                                    //       //     //     });
+                                    //       //   },
+                                    //       //   child: Text('แขท'),
+                                    //       // ))
+                                    //     ],
+                                    //   ),
+                                    // ),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
                                           0.3,
@@ -599,7 +599,7 @@ class _ProfileState extends State<Profile> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 12),
                                   alignment: Alignment.topLeft,
-                                  child: Text('Post',
+                                  child: Text('โพสต์',
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold)),
