@@ -1,1 +1,1 @@
-A university small project using Flutter
+A small university project using Flutter
